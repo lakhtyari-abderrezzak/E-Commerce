@@ -153,6 +153,9 @@ if (isset($_SESSION["Username"])) {
     } elseif ($do == 'Insert') {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+            echo '<h1 class="text-center edit-members">Insert Category</h1>';
+            echo '<div class="container">';
+
             $name = $_POST['name'];
             $discription = $_POST['description'];
             $ordering = $_POST['ordering'];
@@ -162,10 +165,8 @@ if (isset($_SESSION["Username"])) {
             //check If Any Of The Feild Are Empty [Name]
             $check = checkUser('Name', 'categories', $name);
             if ($check == 1) {
-                echo '<div class"container"> ';
                 $msg = '<div class="alert alert-danger" >Category <b>' . $name . '</b> Already Exists In Data Base </div>';
                 redierctHome($msg, 'back', 4);
-                echo '</div>';
             } else {
                 // Insert Info Into Categories Table in Db
                 $stmt = $conn->prepare("INSERT INTO 
@@ -175,9 +176,11 @@ if (isset($_SESSION["Username"])) {
                 $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Category Added Successfully </div>';
                 redierctHome($theMsg, 'back', 4);
             }
+            echo '</div>';
         } else {
             echo "You Can't Enter This page This Page This Way";
         }
+        
     } elseif ($do == 'Edit') {
 
         $catId = isset($_GET['CatID']) && is_numeric($_GET['CatID']) ? intval($_GET['CatID']) : 0;

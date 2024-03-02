@@ -54,7 +54,9 @@ if (isset($_SESSION["Username"])) {
                     <i class="fa-solid fa-comment"></i>
                     <div class="info">
                         Total Comments
-                        <span>0</span>
+                        <span>
+                        <?php echo "<a href='comments.php'>" . countItems('c_id', 'comments') . "</a>" ?>
+                        </span>
                     </div>
                 </div>
             </div>
