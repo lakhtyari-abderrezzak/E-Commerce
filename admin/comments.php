@@ -7,18 +7,17 @@ if (isset($_SESSION["Username"])) {
     isset($_GET['do']) ? $do = $_GET['do'] : $do = 'Manage';
 
     if ($do == 'Manage') { // Manage Page 
-        $query = '';
         $stmt = $conn->prepare('SELECT comments.*, items.Name AS item_name, users.Username AS users_id
-        FROM 
-            comments
-        INNER JOIN 
-            items
-        ON
-            items.Item_ID = comments.item_id
-        INNER JOIN
-            users
-        ON
-            users.UserID = comments.user_id
+                                    FROM 
+                                        comments
+                                    INNER JOIN 
+                                        items
+                                    ON
+                                        items.Item_ID = comments.item_id
+                                    INNER JOIN
+                                        users
+                                    ON
+                                        users.UserID = comments.user_id
         ');
         $stmt->execute();
         $result = $stmt->fetchAll();

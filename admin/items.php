@@ -43,22 +43,23 @@ if (isset($_SESSION['Username'])) {
                         echo '<td>' . $item['Add_Date'] . '</td>';
                         echo '<td>' . $item['Category_Name'] . '</td>';
                         echo '<td>' . $item['Username'] . '</td>';
-                        
-                        echo '<td>';     
-                        echo    '<a class="btn btn-success" href="items.php?do=Edit&ItemID=' . $item['Item_ID'] . '">
+
+                        echo '<td>';
+                        echo '<a class="btn btn-success" href="items.php?do=Edit&ItemID=' . $item['Item_ID'] . '">
                                         <i class="fa-solid fa-pen-fancy"></i>
                                         Edit
                                 </a >';
-                        echo    '<a href="items.php?do=Delete&ItemID=' . $item['Item_ID'] . '" class="btn btn-danger confirm ">
+                        echo '<a href="items.php?do=Delete&ItemID=' . $item['Item_ID'] . '" class="btn btn-danger confirm ">
                                         <i class="fa-solid fa-trash"></i> 
                                         Delete 
-                                        </a>'; 
-                                if($item['Approve'] == 0){
-                                    echo '<a href="items.php?do=Approve&ItemID=' . $item['Item_ID'] . '" class="btn btn-primary confirm ">
+                                        </a>';
+                        if ($item['Approve'] == 0) {
+                            echo '<a href="items.php?do=Approve&ItemID=' . $item['Item_ID'] . '" class="btn btn-primary confirm ">
                                     <i class="fa-solid fa-check"></i>
                                      Approve 
-                                    </a>'; 
-                                };
+                                    </a>';
+                        }
+                        ;
                         echo '</td>';
                         echo '</tr>';
                     }
@@ -353,6 +354,55 @@ if (isset($_SESSION['Username'])) {
                         </div>
                     </div>
                 </form>
+                <?php
+                
+                $stmt = $conn->prepare('SELECT comments.*, users.Username AS users_id
+                                    FROM 
+                                        comments
+                                    INNER JOIN
+                                        users
+                                    ON
+                                        users.UserID = comments.user_id
+                                    WHERE Item_ID = ?');
+                $stmt->execute([$itemID]);
+                $result = $stmt->fetchAll();
+                if(! empty($result)) {
+                ?>
+
+                <h1 class="text-center edit-members">Manage [
+                    <?php echo $row['Name'] ?>] Comments
+                </h1>
+                <div class="table-responsive">
+                    <table class="main-table  text-center table table-bordered">
+                        <tr>
+                            <th>comment</th>
+                            <th>User Name</th>
+                            <th>Added Date</th>
+                            <th>Control</th>
+                        </tr>
+                        <?php
+
+
+                        foreach ($result as $row) {
+                            echo '<tr>';
+                            echo '<td>' . $row['Comment'] . '</td>';
+                            echo '<td>' . $row['users_id'] . '</td>';
+                            echo '<td>' . $row['Comment_Date'] . '</td>';
+                            echo '<td> 
+                                <a class="btn btn-success" href="comments.php?do=Edit&comid=' . $row['c_id'] . '"><i class="fa-solid fa-pen-fancy"></i> Edit</a >
+                                <a href="comments.php?do=Delete&comid=' . $row['c_id'] . '" class="btn btn-danger confirm "><i class="fa-solid fa-trash"></i> Delete </a> ';
+                            if ($row['Status'] == 0) {
+                                echo '<a href="comments.php?do=Approve&comid=' . $row['c_id'] . '" class="btn btn-warning "><i class="fa-solid fa-xmark"></i> Approve </a>';
+                            }
+                            echo '</td>';
+                            echo '</tr>';
+
+                        }
+                        ?>
+
+                    </table>
+                    <?php } ?>
+                </div>
             </div>
             <?php
         } else {
@@ -365,50 +415,50 @@ if (isset($_SESSION['Username'])) {
         echo '<h1 class="text-center edit-members">Update Member</h1>';
         echo '<div class="container">';
 
-            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                
-                $id = $_POST['ItemID'];
-                $name = $_POST['name'];
-                $description = $_POST['description'];
-                $price = $_POST['price'];
-                $made = $_POST['made'];
-                $status = $_POST['status'];
-                $members = $_POST['members'];
-                $categories = $_POST['categories'];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    
-                // Check If Any Of the Fields Are Empty
-                $formErrors = [];
-                if (empty($name)) {
-                    $formErrors[] = 'Item Name Can\'t be Left Empty ';
-                }
-                if (empty($description)) {
-                    $formErrors[] = 'Item description Can\'t be Left Empty ';
-                }
-                if (empty($price)) {
-                    $formErrors[] = 'Item price Can\'t be Left Empty ';
-                }
-                if (empty($made)) {
-                    $formErrors[] = 'Item Country  Can\'t be Left Empty ';
-                }
-                if (empty($status)) {
-                    $formErrors[] = 'Item status Can\'t be Left Empty ';
-                }
-                if (empty($members)) {
-                    $formErrors[] = 'Item Username Can\'t be Left Empty ';
-                }
-                if (empty($categories)) {
-                    $formErrors[] = 'Item categories Can\'t be Left Empty ';
-                }
-    
-                // Loop true FormErrors to Display Availible Errors
-                foreach ($formErrors as $error) {
-                    echo "<div class='alert alert-danger'>" . $error . "</div>";
-                }
-    
-                if (empty($formErrors)) {
-    
-                    $stmt = $conn->prepare('UPDATE 
+            $id = $_POST['ItemID'];
+            $name = $_POST['name'];
+            $description = $_POST['description'];
+            $price = $_POST['price'];
+            $made = $_POST['made'];
+            $status = $_POST['status'];
+            $members = $_POST['members'];
+            $categories = $_POST['categories'];
+
+
+            // Check If Any Of the Fields Are Empty
+            $formErrors = [];
+            if (empty($name)) {
+                $formErrors[] = 'Item Name Can\'t be Left Empty ';
+            }
+            if (empty($description)) {
+                $formErrors[] = 'Item description Can\'t be Left Empty ';
+            }
+            if (empty($price)) {
+                $formErrors[] = 'Item price Can\'t be Left Empty ';
+            }
+            if (empty($made)) {
+                $formErrors[] = 'Item Country  Can\'t be Left Empty ';
+            }
+            if (empty($status)) {
+                $formErrors[] = 'Item status Can\'t be Left Empty ';
+            }
+            if (empty($members)) {
+                $formErrors[] = 'Item Username Can\'t be Left Empty ';
+            }
+            if (empty($categories)) {
+                $formErrors[] = 'Item categories Can\'t be Left Empty ';
+            }
+
+            // Loop true FormErrors to Display Availible Errors
+            foreach ($formErrors as $error) {
+                echo "<div class='alert alert-danger'>" . $error . "</div>";
+            }
+
+            if (empty($formErrors)) {
+
+                $stmt = $conn->prepare('UPDATE 
                                                     items 
                                             SET     `Name` = ?, 
                                                     `Description` = ?,
@@ -419,52 +469,52 @@ if (isset($_SESSION['Username'])) {
                                                      Cat_ID = ? 
                                             WHERE    Item_ID = ? 
                                             LIMIT 1;');
-                    $stmt->execute([$name, $description, $price, $made, $status, $members, $categories, $id]);
-                    $stmt->rowCount() > 0 ? $updateMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated</div>' :
-                        $updateMsg = '<div class="alert alert-danger">' . $stmt->rowCount() . ' Record Updated</div>';
-    
-                    redierctHome($updateMsg, 'back', 4);
-    
-                }
-                echo '</div>';
+                $stmt->execute([$name, $description, $price, $made, $status, $members, $categories, $id]);
+                $stmt->rowCount() > 0 ? $updateMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated</div>' :
+                    $updateMsg = '<div class="alert alert-danger">' . $stmt->rowCount() . ' Record Updated</div>';
+
+                redierctHome($updateMsg, 'back', 4);
+
+            }
+            echo '</div>';
         } else {
             $errorMsg = "<div class='alert alert-danger'>You Can't Enter Update Page This Way </div>";
             redierctHome($errorMsg, 'back', 4);
         }
     } elseif ($do == 'Delete') {
-        
-            echo '<h1 class="text-center">Delete Item</h1>
+
+        echo '<h1 class="text-center">Delete Item</h1>
             <div class="container">';
 
-            $itemID = isset($_GET['ItemID']) && is_numeric($_GET['ItemID']) ? intval($_GET['ItemID']) : 0;
-            $check = checkUser('Item_ID', 'items', $itemID);
-            
-            if($check == 1){
-                $stmt = $conn->prepare('DELETE FROM items WHERE Item_id = :xid');
-                $stmt->bindParam(":xid", $itemID);
-                $stmt->execute();
+        $itemID = isset($_GET['ItemID']) && is_numeric($_GET['ItemID']) ? intval($_GET['ItemID']) : 0;
+        $check = checkUser('Item_ID', 'items', $itemID);
 
-                $msg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Item Deleted. ID Number: ' . $itemID . '</div>';
-                redierctHome($msg);
-            }else{
-                $msg = '<div class="alert alert-danger">You Can\'t Browse This Page This Way</div>';
-                redierctHome($msg);
-            }
+        if ($check == 1) {
+            $stmt = $conn->prepare('DELETE FROM items WHERE Item_id = :xid');
+            $stmt->bindParam(":xid", $itemID);
+            $stmt->execute();
 
-            echo '</div>';
-        
+            $msg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Item Deleted. ID Number: ' . $itemID . '</div>';
+            redierctHome($msg);
+        } else {
+            $msg = '<div class="alert alert-danger">You Can\'t Browse This Page This Way</div>';
+            redierctHome($msg);
+        }
+
+        echo '</div>';
+
     } elseif ($do == 'Approve') {
         echo '<h1 class="text-center">Approve Item </h1>';
         echo '<div class="container">';
 
-        $itemID = isset($_GET['ItemID']) && is_numeric($_GET['ItemID']) ? intval($_GET['ItemID']): 0;
-        $check = checkUser('Item_ID','items', $itemID);
+        $itemID = isset($_GET['ItemID']) && is_numeric($_GET['ItemID']) ? intval($_GET['ItemID']) : 0;
+        $check = checkUser('Item_ID', 'items', $itemID);
 
-        if ($check == 1){
+        if ($check == 1) {
             $stmt = $conn->prepare('UPDATE items SET Approve = 1 WHERE Item_ID = ?');
             $stmt->execute([$itemID]);
 
-            $msg = '<div class="alert alert-success" >'. $stmt->rowCount() . 'Item Was <b>Approved</b></div>' ;
+            $msg = '<div class="alert alert-success" >' . $stmt->rowCount() . 'Item Was <b>Approved</b></div>';
             redierctHome($msg, 'back', 2);
         }
 

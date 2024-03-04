@@ -135,6 +135,32 @@ body{
 .latest .latest-user .btn{
     padding: 4px 8px;
 }
+.panel-body .comments{
+    display: flex;
+    /* gap: 40px; */
+    position: relative;
+}
+.panel-body .comments .user-comment{
+    font-size: 1.3rem;
+    width: 80px;
+    font-weight: 600;
+    margin-right: 20px;
+}
+.panel-body .comments .cmnt{
+    background-color: #ccc;
+    padding: 10px;
+    position: relative;
+}
+.panel-body .comments .cmnt::before{
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 6px;
+    width: 15px;
+    height: 15px;
+    background-color: #ccc;
+    transform: rotate(45deg);
+}
 /* End Dashboard Edits  */
 /* Start Members  */
 h1{

@@ -7,6 +7,15 @@ if (isset($_SESSION["Username"])) {
     $num = 5; // Variable Used For Limt And for Number of User In The Panel
     $latestUsers = getLatest('*', 'users', 'UserID', $num); // Our Connection With data base To Bring Back The Users
     $latestItems = getLatest('*', 'items', 'Item_ID', $num); // Our Connection With data base To Bring Back The Items
+    $stmt = $conn->prepare('SELECT comments.*, users.Username AS users_id
+                                    FROM 
+                                        comments
+                                    INNER JOIN
+                                        users
+                                    ON
+                                        users.UserID = comments.user_id');
+    $stmt->execute();
+    $latetsComments = $stmt->fetchAll();
 
     ?>
     <div class="container dash-stats text-center">
@@ -55,7 +64,7 @@ if (isset($_SESSION["Username"])) {
                     <div class="info">
                         Total Comments
                         <span>
-                        <?php echo "<a href='comments.php'>" . countItems('c_id', 'comments') . "</a>" ?>
+                            <?php echo "<a href='comments.php'>" . countItems('c_id', 'comments') . "</a>" ?>
                         </span>
                     </div>
                 </div>
@@ -124,6 +133,37 @@ if (isset($_SESSION["Username"])) {
                                 }
                                 ?>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa-solid fa-comment"></i>
+                            Latest Comments
+                            <div class="pull-right panel-info">
+                                <i class="fa-solid fa-sort-up fa-lg"></i>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <?php
+                            foreach ($latetsComments as $comment) {
+                                $id = $comment['c_id'];
+                                echo <<<HTML
+                                        <div class="comments">
+                                            <span class="user-comment">$comment[users_id]</span>
+                                            <p class="cmnt"> $comment[Comment]</p>
+                                        </div>
+                                        <!-- <span class="pull-right btn btn-success">
+                                            <a href='comments.php?do=Edit&comid=$id'>
+                                                Edit
+                                            </a>
+                                        </span> -->
+                                     HTML;
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
