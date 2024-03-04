@@ -21,6 +21,8 @@ if (isset($_SESSION["Username"])) {
         ');
         $stmt->execute();
         $result = $stmt->fetchAll();
+        $message = "<div class='record-message'>No Records Found</div>";
+        if(!empty($result)) {
         ?>
 
         <h1 class="text-center edit-members">Manage Comments</h1>
@@ -62,7 +64,11 @@ if (isset($_SESSION["Username"])) {
 
         </div>
 
-    <?php } elseif ($do == 'Edit') {
+
+    <?php } else {
+        echo $message;
+    }
+     } elseif ($do == 'Edit') {
 
         $comid = isset($_GET['comid']) && is_numeric($_GET['comid']) ? intval($_GET['comid']) : 0;
         //check if user Exist in data base

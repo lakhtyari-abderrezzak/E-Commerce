@@ -15,51 +15,56 @@ if (isset($_SESSION["Username"])) {
         }
         $stmt->execute();
         $result = $stmt->fetchAll();
-        ?>
+        $message = "<div class='record-message'>No Records Found</div>";
+        if (!empty($result)) {
+            ?>
 
-        <h1 class="text-center edit-members">Manage Member</h1>
-        <div class="container">
-            <div class="table-responsive">
-                <table class="main-table  text-center table table-bordered">
-                    <tr>
-                        <th>#id</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Full Name</th>
-                        <th>Registerd Date</th>
-                        <th>Control</th>
-                    </tr>
-                    <?php
+            <h1 class="text-center edit-members">Manage Member</h1>
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="main-table  text-center table table-bordered">
+                        <tr>
+                            <th>#id</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Full Name</th>
+                            <th>Registerd Date</th>
+                            <th>Control</th>
+                        </tr>
+                        <?php
 
 
-                    foreach ($result as $row) {
-                        echo '<tr>';
-                        echo '<td>' . $row['UserID'] . '</td>';
-                        echo '<td>' . $row['Username'] . '</td>';
-                        echo '<td>' . $row['Email'] . '</td>';
-                        echo '<td>' . $row['FullName'] . '</td>';
-                        echo '<td>' . $row['Date'] . '</td>';
-                        echo '<td> 
+                        foreach ($result as $row) {
+                            echo '<tr>';
+                            echo '<td>' . $row['UserID'] . '</td>';
+                            echo '<td>' . $row['Username'] . '</td>';
+                            echo '<td>' . $row['Email'] . '</td>';
+                            echo '<td>' . $row['FullName'] . '</td>';
+                            echo '<td>' . $row['Date'] . '</td>';
+                            echo '<td> 
                                 <a class="btn btn-success" href="members.php?do=Edit&UserID=' . $row['UserID'] . '"><i class="fa-solid fa-pen-fancy"></i> Edit</a >
                                 <a href="members.php?do=Delete&UserID=' . $row['UserID'] . '" class="btn btn-danger confirm "><i class="fa-solid fa-trash"></i> Delete </a> ';
-                        if ($row['RegStatus'] == 1) {
-                            echo '<a href="members.php?do=Disactivate&UserID=' . $row['UserID'] . '" class="btn btn-warning "><i class="fa-solid fa-xmark"></i> Disactivate </a>';
-                        } else if ($row['RegStatus'] == 0) {
-                            echo '<a href="members.php?do=Activate&UserID=' . $row['UserID'] . '" class="btn btn-info "><i class="fa-brands fa-creative-commons-by"></i> Activate</a >';
+                            if ($row['RegStatus'] == 1) {
+                                echo '<a href="members.php?do=Disactivate&UserID=' . $row['UserID'] . '" class="btn btn-warning "><i class="fa-solid fa-xmark"></i> Disactivate </a>';
+                            } else if ($row['RegStatus'] == 0) {
+                                echo '<a href="members.php?do=Activate&UserID=' . $row['UserID'] . '" class="btn btn-info "><i class="fa-brands fa-creative-commons-by"></i> Activate</a >';
+                            }
+                            echo '</td>';
+                            echo '</tr>';
+
                         }
-                        echo '</td>';
-                        echo '</tr>';
+                        ?>
 
-                    }
-                    ?>
+                    </table>
+                </div>
 
-                </table>
+                <a href="members.php?do=Add" class="btn btn-primary "> <i class="fa-solid fa-plus"></i> Add New Member</a>
             </div>
 
-            <a href="members.php?do=Add" class="btn btn-primary "> <i class="fa-solid fa-plus"></i> Add New Member</a>
-        </div>
-
-    <?php } elseif ($do == "Add") { // Add New Member            ?>
+        <?php } else {
+            echo $message;
+        }
+    } elseif ($do == "Add") { // Add New Member             ?>
 
         <h1 class="text-center edit-members">Add New Member</h1>
         <div class="container">
@@ -236,10 +241,10 @@ if (isset($_SESSION["Username"])) {
             </div>
             <?php
         } else {
-            
+
             $editError = '<div class="alert alert-danger">No such ID was found</div>';
             redierctHome($editError, 4);
-            
+
         }
 
     } elseif ($do == 'Update') {

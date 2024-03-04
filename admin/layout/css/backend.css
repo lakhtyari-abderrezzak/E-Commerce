@@ -13,6 +13,15 @@ body{
 .control-label{
     font-weight: bold ;
 }
+.record-message{
+    background: #fff;
+    margin: 100px;
+    padding: 20px 10px;
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #555;
+}
 /* End Golobal Rules */
 
 /* Start form  */
@@ -135,23 +144,27 @@ body{
 .latest .latest-user .btn{
     padding: 4px 8px;
 }
-.panel-body .comments{
+.panel-heading .panel-info{
+    cursor: pointer;
+}
+.panel-body .latest-comments{
     display: flex;
-    /* gap: 40px; */
+    margin: 10px 0 20px;
     position: relative;
 }
-.panel-body .comments .user-comment{
+.panel-body .latest-comments .user-comment{
     font-size: 1.3rem;
     width: 80px;
     font-weight: 600;
     margin-right: 20px;
 }
-.panel-body .comments .cmnt{
+.panel-body .latest-comments .cmnt{
     background-color: #ccc;
     padding: 10px;
     position: relative;
+    width: calc(100% - 100px);
 }
-.panel-body .comments .cmnt::before{
+.panel-body .latest-comments .cmnt::before{
     content: '';
     position: absolute;
     left: -6px;
@@ -160,6 +173,11 @@ body{
     height: 15px;
     background-color: #ccc;
     transform: rotate(45deg);
+}
+.panel-body .latest-comments .cmnt i{
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
 }
 /* End Dashboard Edits  */
 /* Start Members  */

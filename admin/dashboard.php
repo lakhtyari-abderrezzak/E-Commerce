@@ -16,6 +16,7 @@ if (isset($_SESSION["Username"])) {
                                         users.UserID = comments.user_id');
     $stmt->execute();
     $latetsComments = $stmt->fetchAll();
+    $message = '<div> No Records Found</div>';
 
     ?>
     <div class="container dash-stats text-center">
@@ -86,19 +87,24 @@ if (isset($_SESSION["Username"])) {
                         <div class="panel-body">
                             <ul class="list-unstyled latest-user">
                                 <?php
-                                foreach ($latestUsers as $user) {
-                                    $id = $user['UserID'];
-                                    echo <<<HTML
-                                        <li class="">
-                                            $user[Username]
-                                            <a href="members.php?do=Edit&UserID=$id">
-                                                <span class="btn btn-success pull-right">
-                                                    <i class="fa-solid fa-edit"></i> 
-                                                    Edit
-                                                </span>
-                                            </a>
-                                        </li>
-                                     HTML;
+                                if(!empty($latestUsers)){
+
+                                    foreach ($latestUsers as $user) {
+                                        $id = $user['UserID'];
+                                        echo <<<HTML
+                                            <li class="">
+                                                $user[Username]
+                                                <a href="members.php?do=Edit&UserID=$id">
+                                                    <span class="btn btn-success pull-right">
+                                                        <i class="fa-solid fa-edit"></i> 
+                                                        Edit
+                                                    </span>
+                                                </a>
+                                            </li>
+                                         HTML;
+                                    }
+                                }else{
+                                    echo $message;
                                 }
                                 ?>
                             </ul>
@@ -117,6 +123,7 @@ if (isset($_SESSION["Username"])) {
                         <div class="panel-body">
                             <ul class="list-unstyled latest-user">
                                 <?php
+                                if(!empty($latestItems)){
                                 foreach ($latestItems as $item) {
                                     $id = $item['Item_ID'];
                                     echo <<<HTML
@@ -131,6 +138,10 @@ if (isset($_SESSION["Username"])) {
                                         </li>
                                      HTML;
                                 }
+                            }else{
+                                echo $message;
+                            }
+
                                 ?>
                             </ul>
                         </div>
@@ -149,20 +160,24 @@ if (isset($_SESSION["Username"])) {
                         </div>
                         <div class="panel-body">
                             <?php
+                            if(!empty ($latetsComments)){
                             foreach ($latetsComments as $comment) {
                                 $id = $comment['c_id'];
                                 echo <<<HTML
-                                        <div class="comments">
+                                        <div class="latest-comments">
                                             <span class="user-comment">$comment[users_id]</span>
-                                            <p class="cmnt"> $comment[Comment]</p>
+                                            <p class="cmnt"> 
+                                                $comment[Comment] 
+                                                <a href='comments.php?do=Edit&comid=$id'>
+                                                 <i class="fa-solid fa-edit"></i>
+                                                </a>
+                                            </p>
                                         </div>
-                                        <!-- <span class="pull-right btn btn-success">
-                                            <a href='comments.php?do=Edit&comid=$id'>
-                                                Edit
-                                            </a>
-                                        </span> -->
                                      HTML;
                             }
+                        }else{
+                            echo $message;
+                        }
                             ?>
                         </div>
                     </div>

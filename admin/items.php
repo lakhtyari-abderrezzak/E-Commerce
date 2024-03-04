@@ -15,6 +15,8 @@ if (isset($_SESSION['Username'])) {
         );
         $stmt->execute();
         $items = $stmt->fetchAll();
+        $message = "<div class='record-message'>No Records Found</div>";
+        if(!empty($items)) {
         ?>
 
         <h1 class="text-center edit-members">Manage Items</h1>
@@ -70,7 +72,12 @@ if (isset($_SESSION['Username'])) {
 
             <a href="items.php?do=Add" class="btn btn-primary "> <i class="fa-solid fa-plus"></i> Add New Item</a>
         </div>
-    <?php } elseif ($do == 'Add') { ?>
+        
+    <?php } else {
+        echo $message;
+    }
+
+ } elseif ($do == 'Add') { ?>
         <h1 class="text-center edit-members">Add New Category</h1>
         <div class="container">
             <form action="?do=Insert" class="form-horizontal" method="POST">

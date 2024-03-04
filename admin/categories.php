@@ -18,58 +18,62 @@ if (isset($_SESSION["Username"])) {
         $stmt = $conn->prepare("SELECT * FROM categories ORDER BY ordering  $sort");
         $stmt->execute();
         $row = $stmt->fetchAll();
+        $message = "<div class='record-message'>No Records Found</div>";
+        if (!empty($row)) {
+            ?>
+            <h1 class="text-center">Manage Categories</h1>
+            <div class="container  categories">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><i class="fa-solid fa-edit"></i> Mange Categories
+                        <div class="option pull-right">
+                            <i class="fa-solid fa-sort"></i> Order:[
+                            <a class="<?php if ($sort == 'asc') {
+                                echo "active";
+                            } ?>" href="?sort=asc">Asc</a> |
+                            <a class="<?php if ($sort == 'desc') {
+                                echo "active";
+                            } ?>" href="?sort=desc">Desc</a>
+                            ]
+                            <i class="fa-solid eye fa-eye"></i>View:[
+                            <span class="active" data-view="full">Full View</span> |
+                            <span data-view="classic">Classic</span>
+                            ]
+                        </div>
 
-        ?>
-        <h1 class="text-center">Manage Categories</h1>
-        <div class="container  categories">
-            <div class="panel panel-default">
-                <div class="panel-heading"><i class="fa-solid fa-edit"></i> Mange Categories
-                    <div class="option pull-right">
-                        <i class="fa-solid fa-sort"></i> Order:[
-                        <a class="<?php if ($sort == 'asc') {
-                            echo "active";
-                        } ?>" href="?sort=asc">Asc</a> |
-                        <a class="<?php if ($sort == 'desc') {
-                            echo "active";
-                        } ?>" href="?sort=desc">Desc</a>
-                        ]
-                        <i class="fa-solid eye fa-eye"></i>View:[
-                        <span class="active" data-view="full">Full View</span> |
-                        <span data-view="classic">Classic</span>
-                        ]
                     </div>
-
-                </div>
-                <div class="panel-body">
-                    <?php
-                    foreach ($row as $key) {
-                        echo '<div class="catego">';
-                        echo '<div class="hidden-buttons">
+                    <div class="panel-body">
+                        <?php
+                        foreach ($row as $key) {
+                            echo '<div class="catego">';
+                            echo '<div class="hidden-buttons">
                                     <a href="categories.php?do=Edit&CatID=' . $key['ID'] . '" class="btn btn-xs btn-primary"><i class="fa-solid fa-edit"></i>Edit</a>
                                     <a href="categories.php?do=Delete&CatID=' . $key['ID'] . '" class="btn btn-xs btn-danger confirm"><i class="fa-solid fa-close"></i>Delete</a>
                                 </div>';
-                        echo '<h3>' . $key['Name'] . '</h3>';
-                        echo '<div class="full-view">';
-                        echo $key['Description'] == '' ? '<p> No Discription </p>' : '<p>' . $key['Description'] . '</p>';
-                        if ($key['Visibility'] == 1) {
-                            echo ' <span class="visibility"><i class="fa-solid fa-eye-slash"></i> Hidden</span>';
+                            echo '<h3>' . $key['Name'] . '</h3>';
+                            echo '<div class="full-view">';
+                            echo $key['Description'] == '' ? '<p> No Discription </p>' : '<p>' . $key['Description'] . '</p>';
+                            if ($key['Visibility'] == 1) {
+                                echo ' <span class="visibility"><i class="fa-solid fa-eye-slash"></i> Hidden</span>';
+                            }
+                            if ($key['Allow_Comments'] == 1) {
+                                echo '<span class="comments">Comments Are Disable</span>';
+                            }
+                            if ($key['Allow_Ads'] == 1) {
+                                echo '<span class="adverts">Ads Are Disable</span>';
+                            }
+                            echo '</div>';
+                            echo '</div>';
+                            echo '<hr>';
                         }
-                        if ($key['Allow_Comments'] == 1) {
-                            echo '<span class="comments">Comments Are Disable</span>';
-                        }
-                        if ($key['Allow_Ads'] == 1) {
-                            echo '<span class="adverts">Ads Are Disable</span>';
-                        }
-                        echo '</div>';
-                        echo '</div>';
-                        echo '<hr>';
-                    }
-                    ?>
+                        ?>
+                    </div>
                 </div>
+                <a href="?do=Add" class="btn btn-primary add-category"><i class="fa-solid fa-plus"> </i> Add Categories</a>
             </div>
-            <a href="?do=Add" class="btn btn-primary add-category"><i class="fa-solid fa-plus"> </i> Add Categories</a>
-        </div>
-        <?php
+            <?php
+        } else {
+            echo $message;
+        }
 
     } elseif ($do == "Add") { ?>
         <h1 class="text-center edit-members">Add New Category</h1>
