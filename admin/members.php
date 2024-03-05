@@ -9,9 +9,9 @@ if (isset($_SESSION["Username"])) {
     if ($do == 'Manage') { // Manage Page 
         $query = '';
         if (isset($_GET['page']) && $_GET['page'] == 'Pending') {
-            $stmt = $conn->prepare('SELECT * FROM users WHERE GroupID != 1 AND RegStatus = 0');
+            $stmt = $conn->prepare('SELECT * FROM users WHERE GroupID != 1 AND RegStatus = 0 ORDER BY UserID DESC');
         } else {
-            $stmt = $conn->prepare('SELECT * FROM users WHERE GroupID != 1');
+            $stmt = $conn->prepare('SELECT * FROM users WHERE GroupID != 1 ORDER BY UserID DESC');
         }
         $stmt->execute();
         $result = $stmt->fetchAll();
@@ -62,9 +62,12 @@ if (isset($_SESSION["Username"])) {
             </div>
 
         <?php } else {
+            echo '<div class="container">';
             echo $message;
+            echo '<a href="members.php?do=Add" class="btn btn-primary "> <i class="fa-solid fa-plus"></i> Add New Member</a>';
+            echo '</div>';
         }
-    } elseif ($do == "Add") { // Add New Member             ?>
+    } elseif ($do == "Add") { // Add New Member                ?>
 
         <h1 class="text-center edit-members">Add New Member</h1>
         <div class="container">
@@ -282,14 +285,22 @@ if (isset($_SESSION["Username"])) {
 
             if (empty($formErrors)) {
 
-                $stmt = $conn->prepare('UPDATE users SET Username = ?, Email = ?, FullName = ?, Password = ? WHERE UserID = ? LIMIT 1;');
-                $stmt->execute(array($user, $email, $name, $pass, $id));
+                $stmt2 = $conn->prepare("SELECT * FROM users WHERE Username = ? AND UserID != ?");
+                $stmt2->execute([$user, $id]);
+                $count = $stmt2->rowCount();
 
-                $stmt->rowCount() > 0 ? $updateMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated</div>' :
+                if ($count == 1) { 
+                    $updateMsg = '<div class="alert alert-danger">User Already Exists</div>';
+                    redierctHome($updateMsg, 'back', 4);
+                } else{
+                    $stmt = $conn->prepare('UPDATE users SET Username = ?, Email = ?, FullName = ?, Password = ? WHERE UserID = ? LIMIT 1;');
+                    $stmt->execute(array($user, $email, $name, $pass, $id));
+                    $stmt->rowCount() > 0 ? $updateMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated</div>' :
                     $updateMsg = '<div class="alert alert-danger">' . $stmt->rowCount() . ' Record Updated</div>';
+                    redierctHome($updateMsg, 'back', 4);
+                }
 
-                redierctHome($updateMsg, 'back', 4);
-
+                
             }
             echo '</div>';
 

@@ -9,75 +9,84 @@ if (isset($_SESSION['Username'])) {
 
     if ($do == 'Manage') {
 
-        $stmt = $conn->prepare('SELECT items.*, categories.Name AS Category_Name, users.Username FROM items
-        INNER JOIN categories ON categories.ID = items.Cat_ID
-        INNER JOIN users ON users.UserID = items.Member_ID'
+        $stmt = $conn->prepare('SELECT items.*, categories.Name 
+                                AS Category_Name, users.Username 
+                                FROM items
+                                INNER JOIN categories 
+                                ON categories.ID = items.Cat_ID
+                                INNER JOIN users 
+                                ON users.UserID = items.Member_ID
+                                ORDER BY Item_ID DESC'
         );
         $stmt->execute();
         $items = $stmt->fetchAll();
         $message = "<div class='record-message'>No Records Found</div>";
-        if(!empty($items)) {
-        ?>
+        if (!empty($items)) {
+            ?>
 
-        <h1 class="text-center edit-members">Manage Items</h1>
-        <div class="container">
-            <div class="table-responsive">
-                <table class="main-table  text-center table table-bordered">
-                    <tr>
-                        <th>#id</th>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>Full Name</th>
-                        <th>Registerd Date</th>
-                        <th>Category</th>
-                        <th>Username</th>
-                        <th>Control</th>
-                    </tr>
-                    <?php
+            <h1 class="text-center edit-members">Manage Items</h1>
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="main-table  text-center table table-bordered">
+                        <tr>
+                            <th>#id</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Full Name</th>
+                            <th>Registerd Date</th>
+                            <th>Category</th>
+                            <th>Username</th>
+                            <th>Control</th>
+                        </tr>
+                        <?php
 
 
-                    foreach ($items as $item) {
-                        echo '<tr>';
-                        echo '<td>' . $item['Item_ID'] . '</td>';
-                        echo '<td>' . $item['Name'] . '</td>';
-                        echo '<td class="text-wrap" >' . $item['Description'] . '</td>';
-                        echo '<td>' . $item['Price'] . '</td>';
-                        echo '<td>' . $item['Add_Date'] . '</td>';
-                        echo '<td>' . $item['Category_Name'] . '</td>';
-                        echo '<td>' . $item['Username'] . '</td>';
+                        foreach ($items as $item) {
+                            echo '<tr>';
+                            echo '<td>' . $item['Item_ID'] . '</td>';
+                            echo '<td>' . $item['Name'] . '</td>';
+                            echo '<td class="text-wrap" >' . $item['Description'] . '</td>';
+                            echo '<td>' . $item['Price'] . '</td>';
+                            echo '<td>' . $item['Add_Date'] . '</td>';
+                            echo '<td>' . $item['Category_Name'] . '</td>';
+                            echo '<td>' . $item['Username'] . '</td>';
 
-                        echo '<td>';
-                        echo '<a class="btn btn-success" href="items.php?do=Edit&ItemID=' . $item['Item_ID'] . '">
+                            echo '<td>';
+                            echo '<a class="btn btn-success" href="items.php?do=Edit&ItemID=' . $item['Item_ID'] . '">
                                         <i class="fa-solid fa-pen-fancy"></i>
                                         Edit
                                 </a >';
-                        echo '<a href="items.php?do=Delete&ItemID=' . $item['Item_ID'] . '" class="btn btn-danger confirm ">
+                            echo '<a href="items.php?do=Delete&ItemID=' . $item['Item_ID'] . '" class="btn btn-danger confirm ">
                                         <i class="fa-solid fa-trash"></i> 
                                         Delete 
                                         </a>';
-                        if ($item['Approve'] == 0) {
-                            echo '<a href="items.php?do=Approve&ItemID=' . $item['Item_ID'] . '" class="btn btn-primary confirm ">
+                            if ($item['Approve'] == 0) {
+                                echo '<a href="items.php?do=Approve&ItemID=' . $item['Item_ID'] . '" class="btn btn-primary confirm ">
                                     <i class="fa-solid fa-check"></i>
                                      Approve 
                                     </a>';
+                            }
+                            ;
+                            echo '</td>';
+                            echo '</tr>';
                         }
-                        ;
-                        echo '</td>';
-                        echo '</tr>';
-                    }
-                    ?>
+                        ?>
 
-                </table>
+                    </table>
+                </div>
+
+                <a href="items.php?do=Add" class="btn btn-primary "> <i class="fa-solid fa-plus"></i> Add New Item</a>
             </div>
 
-            <a href="items.php?do=Add" class="btn btn-primary "> <i class="fa-solid fa-plus"></i> Add New Item</a>
-        </div>
-        
-    <?php } else {
-        echo $message;
-    }
+        <?php } else {
+            echo '<div class="container">';
+            echo $message;
+            echo '<a href="items.php?do=Add" class="btn btn-primary "> <i class="fa-solid fa-plus"></i> Add New Item</a>';
+            echo '</div>';
 
- } elseif ($do == 'Add') { ?>
+        }
+
+    } elseif ($do == 'Add') { ?>
         <h1 class="text-center edit-members">Add New Category</h1>
         <div class="container">
             <form action="?do=Insert" class="form-horizontal" method="POST">
@@ -362,7 +371,7 @@ if (isset($_SESSION['Username'])) {
                     </div>
                 </form>
                 <?php
-                
+
                 $stmt = $conn->prepare('SELECT comments.*, users.Username AS users_id
                                     FROM 
                                         comments
@@ -373,41 +382,41 @@ if (isset($_SESSION['Username'])) {
                                     WHERE Item_ID = ?');
                 $stmt->execute([$itemID]);
                 $result = $stmt->fetchAll();
-                if(! empty($result)) {
-                ?>
+                if (!empty($result)) {
+                    ?>
 
-                <h1 class="text-center edit-members">Manage [
-                    <?php echo $row['Name'] ?>] Comments
-                </h1>
-                <div class="table-responsive">
-                    <table class="main-table  text-center table table-bordered">
-                        <tr>
-                            <th>comment</th>
-                            <th>User Name</th>
-                            <th>Added Date</th>
-                            <th>Control</th>
-                        </tr>
-                        <?php
+                    <h1 class="text-center edit-members">Manage [
+                        <?php echo $row['Name'] ?>] Comments
+                    </h1>
+                    <div class="table-responsive">
+                        <table class="main-table  text-center table table-bordered">
+                            <tr>
+                                <th>comment</th>
+                                <th>User Name</th>
+                                <th>Added Date</th>
+                                <th>Control</th>
+                            </tr>
+                            <?php
 
 
-                        foreach ($result as $row) {
-                            echo '<tr>';
-                            echo '<td>' . $row['Comment'] . '</td>';
-                            echo '<td>' . $row['users_id'] . '</td>';
-                            echo '<td>' . $row['Comment_Date'] . '</td>';
-                            echo '<td> 
+                            foreach ($result as $row) {
+                                echo '<tr>';
+                                echo '<td>' . $row['Comment'] . '</td>';
+                                echo '<td>' . $row['users_id'] . '</td>';
+                                echo '<td>' . $row['Comment_Date'] . '</td>';
+                                echo '<td> 
                                 <a class="btn btn-success" href="comments.php?do=Edit&comid=' . $row['c_id'] . '"><i class="fa-solid fa-pen-fancy"></i> Edit</a >
                                 <a href="comments.php?do=Delete&comid=' . $row['c_id'] . '" class="btn btn-danger confirm "><i class="fa-solid fa-trash"></i> Delete </a> ';
-                            if ($row['Status'] == 0) {
-                                echo '<a href="comments.php?do=Approve&comid=' . $row['c_id'] . '" class="btn btn-warning "><i class="fa-solid fa-xmark"></i> Approve </a>';
+                                if ($row['Status'] == 0) {
+                                    echo '<a href="comments.php?do=Approve&comid=' . $row['c_id'] . '" class="btn btn-warning "><i class="fa-solid fa-xmark"></i> Approve </a>';
+                                }
+                                echo '</td>';
+                                echo '</tr>';
+
                             }
-                            echo '</td>';
-                            echo '</tr>';
+                            ?>
 
-                        }
-                        ?>
-
-                    </table>
+                        </table>
                     <?php } ?>
                 </div>
             </div>

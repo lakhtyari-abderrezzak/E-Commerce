@@ -18,7 +18,7 @@ if (isset($_SESSION["Username"])) {
                                         users
                                     ON
                                         users.UserID = comments.user_id
-        ');
+                                    ORDER BY c_id DESC');
         $stmt->execute();
         $result = $stmt->fetchAll();
         $message = "<div class='record-message'>No Records Found</div>";
@@ -66,7 +66,9 @@ if (isset($_SESSION["Username"])) {
 
 
     <?php } else {
-        echo $message;
+        echo '<div class="container">';
+           echo $message;
+        echo '</div>';
     }
      } elseif ($do == 'Edit') {
 

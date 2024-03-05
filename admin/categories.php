@@ -72,7 +72,10 @@ if (isset($_SESSION["Username"])) {
             </div>
             <?php
         } else {
+            echo '<div class="container">';
             echo $message;
+            echo ' <a href="?do=Add" class="btn btn-primary add-category"><i class="fa-solid fa-plus"> </i> Add Categories</a> ';
+            echo '</div>';
         }
 
     } elseif ($do == "Add") { ?>

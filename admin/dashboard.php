@@ -13,7 +13,8 @@ if (isset($_SESSION["Username"])) {
                                     INNER JOIN
                                         users
                                     ON
-                                        users.UserID = comments.user_id');
+                                        users.UserID = comments.user_id
+                                    ORDER BY c_id DESC');
     $stmt->execute();
     $latetsComments = $stmt->fetchAll();
     $message = '<div> No Records Found</div>';
@@ -153,7 +154,7 @@ if (isset($_SESSION["Username"])) {
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa-solid fa-comment"></i>
-                            Latest Comments
+                           <?php echo $num ?>  Latest Comments
                             <div class="pull-right panel-info">
                                 <i class="fa-solid fa-sort-up fa-lg"></i>
                             </div>
