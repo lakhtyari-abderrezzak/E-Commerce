@@ -1,5 +1,20 @@
 <?php
 
+function getCats(){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM categories ORDER BY ID ASC");
+    $stmt->execute();
+    $cats = $stmt->fetchAll();
+    return $cats;
+}
+
+function getItems($idValue){
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM items WHERE Cat_ID = ? ORDER BY Cat_ID DESC");
+    $stmt->execute([$idValue]);
+    $items = $stmt->fetchAll();
+    return $items;
+}
 // Function that echos pageTitle incase
 // the page has $pageTitle variable in it 
 

@@ -87,7 +87,7 @@ if (isset($_SESSION['Username'])) {
         }
 
     } elseif ($do == 'Add') { ?>
-        <h1 class="text-center edit-members">Add New Category</h1>
+        <h1 class="text-center edit-members">Add New Item</h1>
         <div class="container">
             <form action="?do=Insert" class="form-horizontal" method="POST">
                 <!-- start name of Item  -->
