@@ -2,9 +2,11 @@
 session_start();
 $noNavbar = "";
 $pageTitle = "Login";
+
 if (isset($_SESSION["Username"])) {
     header("Location: dashboard.php"); // Redirected To Dashboard
 }
+
 include("init.php");
 
 
@@ -28,8 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION["ID"] = $row['UserID']; // Registered Session UserID 
         header("Location: dashboard.php"); // Redirected To Dashboard
         exit();
-    } else {
-    }
+    } 
 
 }
 

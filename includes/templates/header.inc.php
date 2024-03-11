@@ -22,9 +22,19 @@
 <body>
   <div class="upper-bar">
     <div class="container">
-      <span class="pull-right">
-        <a href="login.php">Login/Signup</a>
-      </span>
+      <?php
+      if (isset($_SESSION['user'])) {
+        echo ' <span> Welcome ' . $_SESSION['user'] . '</span>';
+        echo '<span class="btn btn-danger pull-right">
+                <a href="logout.php">Logout</a>
+              </span>' ;
+
+      } else {
+        ?>
+        <span class="pull-right">
+          <a href="login.php">Login/Signup</a>
+        </span>
+      <?php } ?>
     </div>
   </div>
   <nav class="navbar navbar-inverse">
