@@ -166,7 +166,7 @@ if (isset($_SESSION["Username"])) {
                     redierctHome($errMsg, 'back');
                 } else {
                     $stmt = $conn->prepare('INSERT INTO users  (Username, Password, Email, FullName,RegStatus, Date)
-                     VALUES (?,?,?,?,1,now()) ');
+                     VALUES (?,?,?,?,0,now()) ');
                     $stmt->execute(array($user, $hashedPass, $email, $name));
                     $stmt->rowCount() > 0 ? $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Record inserted </div>' :
                         $theMsg = '<div class="alert alert-dnager">' . $stmt->rowCount() . ' Record inserted </div>';

@@ -91,3 +91,18 @@ function getLatest($select, $table, $order, $limit){
     $row = $stmt->fetchAll();
     return $row;
 }
+
+/*
+*** Function checkUserStatus 
+*** Function Selects [User]
+*** Function GetLatest Takes One Argument  [ $user]
+*/
+function checkUserStatus($user){
+
+    global $conn;
+    $stmt = $conn->prepare("SELECT * FROM users WHERE Username = ? AND RegStatus = 0;");
+    $stmt->execute([$user]);
+
+    $status = $stmt->rowCount();
+    return $status;
+}

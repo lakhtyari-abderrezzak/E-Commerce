@@ -25,6 +25,10 @@
       <?php
       if (isset($_SESSION['user'])) {
         echo ' <span> Welcome ' . $_SESSION['user'] . '</span>';
+        $userStatus = checkUserStatus($_SESSION['user']);
+        if($userStatus = 1){
+          echo 'Not Active';
+        }
         echo '<span class="btn btn-danger pull-right">
                 <a href="logout.php">Logout</a>
               </span>' ;
