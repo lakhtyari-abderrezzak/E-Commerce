@@ -25,7 +25,8 @@
       <?php
       if (isset($_SESSION['user'])) {
         echo ' <span> Welcome ' . $_SESSION['user'] . '</span>';
-        $userStatus = checkUserStatus($_SESSION['user']);
+        echo '<span> <a href="profile.php">Profile</a> </span>';
+        $userStatus = checkUserStatus($sessionUser);
         if($userStatus = 1){
           echo 'Not Active';
         }

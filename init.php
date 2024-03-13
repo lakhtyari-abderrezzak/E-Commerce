@@ -1,6 +1,12 @@
 <?php
+ini_set('display_errer', 'On');
+error_reporting(E_ALL);
 include("admin/connect.php");
 
+$sessionUser = '';
+if(isset($_SESSION['user'])){
+    $sessionUser =  $_SESSION['user'];
+}
 
 $tpl = "includes/templates/"; // template directory
 $css = "layout/css/"; // css directory

@@ -6,7 +6,7 @@
     </h1>
     <div class="row">
         <?php
-        $items = getItems($_GET['pageid']);
+        $items = getItems('Cat_ID',$_GET['pageid']);
         foreach ($items as $item) {
             print <<<HTML
                     <div class="col-sm-6 col-md-3">

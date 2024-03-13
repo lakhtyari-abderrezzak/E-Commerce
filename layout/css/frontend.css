@@ -37,34 +37,8 @@ h1 {
   padding: 10px;
   background-color: #fff;
 }
+.upper-bar .input-container 
 /* End Golobal Rules */
-
-/* Start Login Styles */
-
-.login-page form {
-  width: 380px;
-  margin: auto;
-}
-.login-page form input {
-  margin-bottom: 10px;
-}
-.login-page form input.btn {
-  width: 100%;
-}
-.login-page h1 span{
-  color: #b6b4b4;
-  cursor: pointer;
-}
-.login-page [data-class="login"].selected{
-  color: #0984e3;
-}
-.login-page [data-class="signup"].selected{
-  color: #00b894;
-}
-.login-page .signup{
-  display: none;
-}
-/* End Login Styles */
 
 /* Start navbar Edit  */
 .navbar {
@@ -128,3 +102,34 @@ h1 {
   line-height: 1.6;
 }
 /* End Category Styling */
+/* Start Profile Styling */
+.profil .panel-heading{
+  background-color: #6c5ce7;
+}
+/* End Profile Styling */
+/* Start Login Styles */
+
+.container form{
+  width: 380px;
+  margin: auto;
+}
+.login-page form input {
+  margin-bottom: 10px;
+}
+.login-page form input.btn {
+  width: 100%;
+}
+.login-page h1 span{
+  color: #b6b4b4;
+  cursor: pointer;
+}
+.login-page [data-class="login"].selected{
+  color: #0984e3;
+}
+.login-page [data-class="signup"].selected{
+  color: #00b894;
+}
+.login-page .signup{
+  display: none;
+}
+/* End Login Styles */

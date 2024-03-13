@@ -8,10 +8,10 @@ function getCats(){
     return $cats;
 }
 
-function getItems($idValue){
+function getItems($where, $value){
     global $conn;
-    $stmt = $conn->prepare("SELECT * FROM items WHERE Cat_ID = ? ORDER BY Cat_ID DESC");
-    $stmt->execute([$idValue]);
+    $stmt = $conn->prepare("SELECT * FROM items WHERE $where = ? ORDER BY $where DESC");
+    $stmt->execute([$value]);
     $items = $stmt->fetchAll();
     return $items;
 }
