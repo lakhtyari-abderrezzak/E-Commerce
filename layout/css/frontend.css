@@ -133,3 +133,26 @@ h1 {
   display: none;
 }
 /* End Login Styles */
+/* Start Profile Styling */
+.info {
+  margin-top: 20px;
+}
+.info ul {
+  padding: 0;
+  margin: 0;
+}
+.info ul li{
+  padding: 10px;
+}
+.info ul li:nth-child(odd){
+  background-color: #eee;
+}
+.info ul li span{
+  display: inline-block;
+  width: 160px;
+}
+.info ul li i{
+  padding-right: 4px;
+}
+/* End Profile Styling */
+

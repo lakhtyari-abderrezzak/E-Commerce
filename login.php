@@ -117,7 +117,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
     }
     if (isset($successMessage)){
-        echo "<p class='text-center alert alert-success mt-4'> <b>" . $_POST['fullname'] . "</b> Is Successfully Registered</p>";
+        echo "<p class='text-center alert alert-success mt-4'> <b>" 
+        . $_POST['fullname'] . 
+        "</b> Is Successfully Registered</p>";
     }
     ?>
 </div>
