@@ -62,7 +62,6 @@ function checkUser($select, $from, $value)
     $count = $statement->rowCount();
 
     return $count;
-
 }
 
 /*
