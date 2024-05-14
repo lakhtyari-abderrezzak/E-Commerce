@@ -18,6 +18,13 @@ h1 {
   right: 7px;
   top: 3px;
 }
+.new-ad .asterisk {
+  font-size: 30px;
+  position: absolute;
+  color: red;
+  right: 30px;
+  top: 8px;
+}
 .input-container {
   position: relative;
 }

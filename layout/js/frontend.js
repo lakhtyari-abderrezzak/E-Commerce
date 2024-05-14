@@ -41,13 +41,7 @@ $(function () {
     return confirm("Are You Sure You Want To Continue With This Action");
   });
 
-  $(".live-name").keyup(function (){
-    $(".live-preview .caption h3").text($(this).val());
-  })
-  $(".live-description").keyup(function (){
-    $(".live-preview .caption p").text($(this).val());
-  })
-  $(".live-price").keyup(function (){
-    $(".live-preview span").text('$' + $(this).val());
-  })
+  $(".live").keyup(function (){
+    $('.' + $(this).data("class")).text($(this).val());
+  });
 });

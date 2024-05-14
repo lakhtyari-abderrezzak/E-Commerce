@@ -15,13 +15,13 @@ if(isset($_SESSION['user'])){
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-8">
-                        <form action="<?php echo $_SERVER['PHP_SELF'] ?>" class="form-horizontal" method="POST">
+                        <form action="<?php echo $_SERVER['PHP_SELF'] ?>" class="form-horizontal new-ad" method="POST">
                             <!-- start name of Item  -->
                             <div class="form-group form-group-lg">
                                 <lable class="col-sm-2 control-label">Name</lable>
                                 <div class="col-sm-10 col-md-9">
-                                    <input type="text" name="name" required="required" class="form-control live-name"
-                                        placeholder="Enter Valid Item Name">
+                                    <input type="text" name="name" required="required" class="form-control live"
+                                        placeholder="Enter Valid Item Name" data-class="live-title">
                                 </div>
                             </div>
                             <!-- End name of Item  -->
@@ -30,8 +30,8 @@ if(isset($_SESSION['user'])){
                             <div class="form-group form-group-lg">
                                 <lable class="col-sm-2 control-label">Description</lable>
                                 <div class="col-sm-10 col-md-9">
-                                    <input type="text" class="form-control live-description" name="description" required="required"
-                                        placeholder="Enter a Description for Your Product">
+                                    <input type="text" class="form-control live" name="description" required="required"
+                                        placeholder="Enter a Description for Your Product" data-class="live-desc">
                                 </div>
                             </div>
                             <!-- End Description of Item  -->
@@ -39,7 +39,7 @@ if(isset($_SESSION['user'])){
                             <div class="form-group form-group-lg">
                                 <lable class="col-sm-2 control-label">Price</lable>
                                 <div class="col-sm-10 col-md-9">
-                                    <input type="text" class="form-control live-price" name="price" required="required" placeholder="Price Here">
+                                    <input type="text" class="form-control live" name="price" required="required" placeholder="Price Here" data-class="live-price">
                                 </div>
                             </div>
                             <!-- End Price of Item  -->
@@ -96,11 +96,13 @@ if(isset($_SESSION['user'])){
                     </div>
                     <div class="col-md-4">
                         <div class="thumbnail item-box live-preview">
-                            <span class="price-tag">$0</span>
+                            <span class="price-tag">
+                                $<span class="live-price"></span>
+                            </span>
                             <img src="pair-trainers.jpg" alt="" class="img-responsive">
                             <div class="caption">
-                                <h3>Title</h3>
-                                <p>Description</p>
+                                <h3 class="live-title">Title</h3>
+                                <p class="live-desc">Description</p>
                             </div>
                         </div>
                     </div>
