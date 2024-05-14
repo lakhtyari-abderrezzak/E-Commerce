@@ -15,14 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $hashedPass = sha1($pass);
 
         //check if user Exist in data base
-        $stmt = $conn->prepare('SELECT UserID, Username , Password FROM users WHERE Username = ? AND Password = ?;');
+        $stmt = $conn->prepare('SELECT UserID, Username , `Password` FROM users WHERE Username = ? AND `Password` = ?;');
         $stmt->execute(array($user, $hashedPass));
+        $get= $stmt->fetch();
         $count = $stmt->rowCount();
 
 
         //if count > 0 this means the database contains some Elememts 
         if ($count > 0) {
             $_SESSION["user"] = $user; // Registered Session Name 
+            $_SESSION['uid']  = $get['UserID'];
             header("Location: index.php"); // Redirected To index.php
             exit();
         }

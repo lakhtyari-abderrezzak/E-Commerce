@@ -119,6 +119,10 @@ h1 {
 .container form{
   margin: auto;
 }
+.login,
+.signup{
+  width: 380px;
+}
 .login-page form input {
   margin-bottom: 10px;
 }
