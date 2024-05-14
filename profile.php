@@ -75,7 +75,7 @@ if (isset($_SESSION['user'])) {
                                 }
                                 
                             }else{
-                                echo "<p>There Are No Items To Show</p>";
+                                echo "<p>There Are No Items To Show <a href='newad.php'>New Ad</a></p>";
                             }
                             echo '</div>';
                             ?>

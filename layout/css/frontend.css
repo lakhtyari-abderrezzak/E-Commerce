@@ -110,7 +110,6 @@ h1 {
 /* Start Login Styles */
 
 .container form{
-  width: 380px;
   margin: auto;
 }
 .login-page form input {

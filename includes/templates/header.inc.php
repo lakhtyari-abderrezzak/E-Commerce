@@ -25,11 +25,12 @@
       <?php
       if (isset($_SESSION['user'])) {
         echo ' <span> Welcome ' . $_SESSION['user'] . '</span>';
-        echo '<span> <a href="profile.php">Profile</a> </span>';
-        $userStatus = checkUserStatus($sessionUser);
         if($userStatus = 1){
-          echo 'Not Active';
+          echo ' Your Profile is Not Active. ';
         }
+        echo '<a href="newad.php">New Ad </a>';
+        echo '<a href="profile.php">Profile</a>';
+        $userStatus = checkUserStatus($sessionUser);
         echo '<span class="btn btn-danger pull-right">
                 <a href="logout.php">Logout</a>
               </span>' ;
