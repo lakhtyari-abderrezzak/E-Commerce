@@ -164,5 +164,11 @@ h1 {
 .info ul li i{
   padding-right: 4px;
 }
+.thumbnail .date{
+  font-size: 12px;
+  color: #aaa;
+  text-align: right;
+  font-weight: bold;
+}
 /* End Profile Styling */
 

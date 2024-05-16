@@ -4,8 +4,7 @@
     $pageTitle = 'Create New Ad';
     include("init.php");
     if(isset($_SESSION['user'])){
-
-
+    
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $formErrors = array();
 
@@ -25,10 +24,13 @@
         }
         //Check if Errors Are Empty Then Send The Data To DB
         if (empty ($formErrors)){
-            $stmt = $conn->prepare("INSERT INTO items (`Name`, `Description`, Price, Add_Date, Made_In, `Status`, Cat_Id, Member_Id) VALUES (?,?,?,now(),?,?,?,?);");
+            $stmt = $conn->prepare("INSERT INTO 
+                                items (`Name`, `Description`, Price, Add_Date, Made_In, `Status`, Cat_Id, Member_Id)
+                                 VALUES (?,?,?,now(),?,?,?,?);");
             $stmt->execute(array($name, $desc, $price, $country, $status, $category, $_SESSION['uid']));
+            
             if ($stmt){
-                echo "Successfully Added An Item";
+                $msg = "Successfully Added An Item";
             }
         }
      }
@@ -135,9 +137,14 @@
                         </div>
                     </div>
                     <?php 
+                    if(!empty($formErrors)){
                         foreach($formErrors as $error){
                             echo "<div class='alert alert-danger text-center'>" . $error . "</div> ";
                         }
+                    }
+                    if(isset($msg)) {
+                        echo  "<div class='alert alert-success text-center'>" . $msg . "</div> ";
+                    }  
                     ?>
                 </div>
             </div>

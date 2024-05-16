@@ -63,11 +63,14 @@ if (isset($_SESSION['user'])) {
                                     print <<<HTML
                                                 <div class="col-sm-6 col-md-3">
                                                     <div class="thumbnail item-box">
-                                                        <span class="price-tag">$item[Price]</span>
+                                                        <span class="price-tag">$$item[Price]</span>
                                                         <img src="pair-trainers.jpg" alt="" class="img-responsive">
                                                         <div class="caption">
-                                                            <h3>$item[Name]</h3>
+                                                            <h3><a 
+                                                            href='items.php?itemid=$item[Item_ID]'>$item[Name]</a>
+                                                            </h3>
                                                             <p>$item[Description]</p>
+                                                            <div  class="date">$item[Add_Date]</div>
                                                         </div>
                                                     </div>
                                                 </div>
