@@ -8,7 +8,7 @@ include('init.php');
 //Check if We Have item id in The Link and is It numeric Then then Get It intvalue
 $itemId = isset($_GET['itemid']) && is_numeric($_GET['itemid']) ? intval($_GET['itemid']) : 0 ;
 // Use The Int Value to Get Itmes From Data Base 
-$stmt = $conn->prepare("SELECT items.*, categories.Name 
+$stmt = $conn->prepare("SELECT items.*, categories.Name As catName
                             , users.Username
                             FROM items
                             INNER JOIN categories 
@@ -31,15 +31,98 @@ if($stmt->rowCount() > 0){
         <div class="col-md-3">
             <img src="pair-trainers.jpg" class="img-responsive img-thumbnail" alt="<?php $item['Name'] ?> ">
         </div>
-        <div class="col-md-9">
+        <div class="col-md-9 show-item">
             <h2><?php echo $item['Name'] ?></h2>
             <p><?php echo $item['Description'] ?></p>
-            <span class="date"><?php echo $item['Add_Date'] ?></span>
-            <p><?php echo "Made In: " . $item['Made_In'] ?></p>
-            <div><?php echo "Price: $" . $item['Price'] ?></div>
-            <div><?php echo "Added By: " . $item['Username'] ?></div>
-            <div><?php echo "Category: " . $item['Name'] ?></div>
+            <ul class="list-unstyled">
+                <li class="date">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <span>Added Date</span>: <?php echo $item['Add_Date'] ?>
+                </li>
+                <li>
+                    <i class="fa-solid fa-globe"></i>
+                    <span>Made In</span>: <?php echo $item['Made_In'] ?>
+                </li>
+                <li> 
+                    <i class="fa-solid fa-barcode"></i>
+                    <span>Price</span>: <?php echo $item['Price'] ?>
+                </li>
+                <li> 
+                    <i class="fa-regular fa-user"></i>
+                    <span>Added By</span>: <?php echo $item['Username'] ?>
+                </li>
+                <li>
+                    <i class="fa-solid fa-list"></i>
+                    <span>Category</span>: <a href="categories.php?pageid=<?php echo $item['Cat_ID'] ?>"><?php echo $item['catName'] ?></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr class="custum">
+    <?php if(isset($_SESSION['user'])){ ?>
+    <div class="row">
+        <div class="col-md-offset-3">
+            <div class="add-comment">
+                <h3>Add Comment</h3>
+                <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
+                    <textarea name="comment" class="comment"></textarea>
+                    <input type="submit" class="btn btn-primary" value="submit" id="">
+                </form>
+            </div>
+        </div>
+        <?PHP 
+        if($_SERVER['REQUEST_METHOD' ] == "POST") {
+            $comment = $_POST['comment'] ;
+            $comment_sanitized = html_entity_decode($comment);
+            $item_id = $item['Item_ID'];
+            $user_id = $item['Member_ID'];
+            
+            if( !empty($comment)){
 
+                $stmt = $conn->prepare('INSERT INTO comments(Comment, `Status`, Comment_Date, Item_id, user_id )
+                VALUES(?, 0, NOW(), ?, ?);');
+                $stmt->execute(array($comment_sanitized, $item_id, $user_id));
+
+                if($stmt){
+                    echo '<div class="alert alert-success text-center"> Comment Added Successfully</div>';
+                }
+            }else{
+                    echo '<div class="m-4 alert alert-danger text-center"> Can\'t Leave Comment Empty</div>';
+            }
+        }
+        ?>
+    </div>
+    <?php }else{
+        echo "<p><a href='login.php' >Login/Signup</a> To Add a Comment</p>";
+    } ?>
+    <hr class="custum">
+    <div class="row">
+        <div class="col-md-3">
+                User Pic
+        </div>
+        <div class="col-md-9">
+            <?php 
+                $stmt = $conn->prepare('SELECT 
+                                        comments.*, users.UserName AS Member
+                                        FROM 
+                                        comments
+                                        INNER JOIN
+                                        users 
+                                        ON
+                                        users.UserID = comments.user_id
+                                        WHERE Item_ID = ?
+                                        ORDER BY 
+                                        Comment_Date DESC ;');
+                $stmt->execute(array($itemId));
+                $comments = $stmt->fetchAll();
+
+                    foreach ($comments as $comment){
+                        echo $comment['Comment'] . '<br>';
+                        echo $comment['Comment_Date'] . '<br>';
+                        echo $comment['Member'] . '<br>';
+                    }
+                
+            ?>
         </div>
     </div>
 </div>

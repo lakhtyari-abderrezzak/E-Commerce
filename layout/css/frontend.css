@@ -170,5 +170,55 @@ h1 {
   text-align: right;
   font-weight: bold;
 }
+
 /* End Profile Styling */
+/* Start Show Items Styling */
+.show-item {
+  margin-top: 0px;
+}
+.show-item h2{
+  margin: 0;
+  padding: 0 0 7px;
+}
+.show-item p {
+  padding: 10px;
+}
+.show-item ul {
+  padding: 0;
+  margin: 0;
+}
+.show-item ul li{
+  padding: 10px;
+}
+.show-item ul li:nth-child(odd){
+  background-color: #d3d0d08a;
+}
+.show-item ul li i,
+.show-item ul li span{
+  font-weight: bold;
+}
+.show-item ul li span{
+  display: inline-block;
+  width: 160px;
+}
+.show-item ul li i{
+  padding-right: 4px;
+}
+.custum{
+  border-top: 2px solid #cccbcb;
+}
+.row .add-comment{
+ margin: 0;
+}
+.row .add-comment .comment{
+  display: block;
+  margin-bottom: 10px;
+  width: 60%;
+  height: 100px;
+  resize: none;
+}
+.row .add-comment .btn{
+  margin-bottom: 10px;
+}
+/* End Show Items Styling */
 
