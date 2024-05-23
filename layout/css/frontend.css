@@ -115,7 +115,9 @@ h1 {
 }
 /* End Profile Styling */
 /* Start Login Styles */
-
+.container{
+  padding-bottom: 15px;
+}
 .container form{
   margin: auto;
 }
@@ -204,11 +206,8 @@ h1 {
 .show-item ul li i{
   padding-right: 4px;
 }
-.custum{
-  border-top: 2px solid #cccbcb;
-}
 .row .add-comment{
- margin: 0;
+  margin: 0;
 }
 .row .add-comment .comment{
   display: block;
@@ -220,5 +219,35 @@ h1 {
 .row .add-comment .btn{
   margin-bottom: 10px;
 }
+.comment-box{
+  margin: 10px;
+}
+.comment-box img {
+  width: 60px;
+}
+.comment-box .col-sm-2{
+  text-align: center;
+}
+.comment-box .lead {
+  background-color: white;
+  padding: 20px 10px;
+  position: relative;
+  margin-top: 25px;
+}
+
+.comment-box .col-sm-10 .lead::before {
+  content: '';
+  position: absolute;
+  left:-10px;
+  top: 0;
+  border: 10px solid ;
+  border-color: #fff transparent transparent transparent;
+}
 /* End Show Items Styling */
+.custum{
+  border-top: 2px solid #cccbcb;
+}
+hr:last-of-type{
+  display: none;
+}
 

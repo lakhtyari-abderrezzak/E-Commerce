@@ -151,7 +151,7 @@ if (isset($_SESSION["Username"])) {
             $stmt->execute();
 
             $msg = '<div class="alert alert-success">User #ID ' . $comID . ' Was Deleted Successfully</div>';
-            redierctHome($msg, 'back');
+            redierctHome($msg, 'back', 0.8);
         } else {
             $errorMsg = '<div class="alert alert-danger">There Is No Such ID</div>';
             redierctHome($errorMsg);
@@ -169,7 +169,7 @@ if (isset($_SESSION["Username"])) {
             $stmt->execute(array($comid));
 
             $msg = '<div class="alert alert-success">User #ID ' . $comid . ' Was Activated Successfully</div>';
-            redierctHome($msg, 'back');
+            redierctHome($msg, 'back', 0.5);
         } else {
             $errorMsg = '<div class="alert alert-danger">You Can\'t Enter This Page From The Url</div>';
             redierctHome($errorMsg);

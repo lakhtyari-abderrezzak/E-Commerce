@@ -75,7 +75,7 @@ if($stmt->rowCount() > 0){
             $comment = $_POST['comment'] ;
             $comment_sanitized = html_entity_decode($comment);
             $item_id = $item['Item_ID'];
-            $user_id = $item['Member_ID'];
+            $user_id = $_SESSION['uid'];
             
             if( !empty($comment)){
 
@@ -96,12 +96,7 @@ if($stmt->rowCount() > 0){
         echo "<p><a href='login.php' >Login/Signup</a> To Add a Comment</p>";
     } ?>
     <hr class="custum">
-    <div class="row">
-        <div class="col-md-3">
-                User Pic
-        </div>
-        <div class="col-md-9">
-            <?php 
+    <?php 
                 $stmt = $conn->prepare('SELECT 
                                         comments.*, users.UserName AS Member
                                         FROM 
@@ -111,20 +106,26 @@ if($stmt->rowCount() > 0){
                                         ON
                                         users.UserID = comments.user_id
                                         WHERE Item_ID = ?
+                                        AND `Status` = 1
                                         ORDER BY 
-                                        Comment_Date DESC ;');
+                                        c_id DESC ;');
                 $stmt->execute(array($itemId));
                 $comments = $stmt->fetchAll();
-
-                    foreach ($comments as $comment){
-                        echo $comment['Comment'] . '<br>';
-                        echo $comment['Comment_Date'] . '<br>';
-                        echo $comment['Member'] . '<br>';
-                    }
-                
-            ?>
-        </div>
-    </div>
+         
+                foreach ($comments as $comment){ ?>
+                <div class="comment-box">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <img class="img-responsive img-circle img-thumbnail" src="profile.jpg">
+                            <p class="text-center"> <?php echo $comment['Member']  ?></p>
+                        </div>
+                        <div class="col-sm-10">
+                            <p class="lead"><?php echo $comment['Comment'] ?></p>
+                        </div>
+                    </div>
+                </div>
+                <hr class="custum">
+                <?php } ?>
 </div>
 <?php 
 }else{
