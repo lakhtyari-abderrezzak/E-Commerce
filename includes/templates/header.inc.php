@@ -26,14 +26,12 @@
       if (isset($_SESSION['user'])) {
         echo ' <span> Welcome ' . $_SESSION['user'] . '</span>';
         if($userStatus = 1){
-          echo ' Your Profile is Not Active. ';
+          echo '<span>Your Profile is Not Active </span>';
         }
-        echo '<a href="newad.php">New Ad </a>';
-        echo '<a href="profile.php">Profile</a>';
+        echo '<a class="btn btn-primary" href="newad.php">New Item</a>';
+        echo '<a class="btn btn-primary" href="profile.php">Profile</a>';
         $userStatus = checkUserStatus($sessionUser);
-        echo '<span class="btn btn-danger pull-right">
-                <a href="logout.php">Logout</a>
-              </span>' ;
+        echo '<a class="btn btn-danger" href="logout.php">Logout</a>';
 
       } else {
         ?>

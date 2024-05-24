@@ -56,26 +56,31 @@ if (isset($_SESSION['user'])) {
                     <div class="panel-body">
                             <?php
                             if(!empty (getItems('Member_ID', $info['UserID']))){
-                                $items = getItems('Member_ID', $info['UserID']);
+                                $items = getItems('Member_ID', $info['UserID'],1);
                         
                                 echo "<div class='row'>";
-                                foreach ($items as $item) {
-                                    print <<<HTML
+                                foreach ($items as $item) {?>
+                                    
                                                 <div class="col-sm-6 col-md-3">
-                                                    <div class="thumbnail item-box">
-                                                        <span class="price-tag">$$item[Price]</span>
+                                                    <div class="thumbnail item-box <?php 
+                                                            if($item['Approve'] == 0){
+                                                                echo'not-approved';
+                                                            }
+                                                                ?>">
+                                                        <span class="price-tag">$<?php echo $item['Price']; ?></span>
                                                         <img src="pair-trainers.jpg" alt="" class="img-responsive">
                                                         <div class="caption">
                                                             <h3><a 
-                                                            href='items.php?itemid=$item[Item_ID]'>$item[Name]</a>
+                                                            href='items.php?itemid=<?php echo $item['Item_ID']; ?>'><?php echo $item['Name'];?></a>
                                                             </h3>
-                                                            <p>$item[Description]</p>
-                                                            <div  class="date">$item[Add_Date]</div>
+                                                            <p><?php echo $item['Description']; ?></p>
+                                                            <div  class="date"><?php echo $item['Add_Date']; ?></div>
+                                                           
                                                         </div>
                                                     </div>
                                                 </div>
-                                            HTML;
-                                }
+                                            
+                               <?php }
                                 
                             }else{
                                 echo "<p>There Are No Items To Show <a href='newad.php'>New Ad</a></p>";

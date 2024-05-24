@@ -51,7 +51,7 @@ if (isset($_SESSION['Username'])) {
                             echo '<td>' . $item['Category_Name'] . '</td>';
                             echo '<td>' . $item['Username'] . '</td>';
 
-                            echo '<td>';
+                            echo '<td class="control">';
                             echo '<a class="btn btn-success" href="items.php?do=Edit&ItemID=' . $item['Item_ID'] . '">
                                         <i class="fa-solid fa-pen-fancy"></i>
                                         Edit
@@ -531,7 +531,7 @@ if (isset($_SESSION['Username'])) {
             $stmt->execute([$itemID]);
 
             $msg = '<div class="alert alert-success" >' . $stmt->rowCount() . 'Item Was <b>Approved</b></div>';
-            redierctHome($msg, 'back', 2);
+            redierctHome($msg, 'back', 0.5);
         }
 
     }

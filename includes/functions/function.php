@@ -8,9 +8,11 @@ function getCats(){
     return $cats;
 }
 
-function getItems($where, $value){
+function getItems($where, $value, $approve = null){
     global $conn;
-    $stmt = $conn->prepare("SELECT * FROM items WHERE $where = ? ORDER BY $where DESC");
+
+    $sql = $approve == null ? 'AND Approve = 1' : '' ;
+    $stmt = $conn->prepare("SELECT * FROM items WHERE $where = ? $sql ORDER BY $where DESC");
     $stmt->execute([$value]);
     $items = $stmt->fetchAll();
     return $items;

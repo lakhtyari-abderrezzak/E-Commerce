@@ -1,4 +1,7 @@
-<?php include("init.php"); ?>
+<?php 
+session_start();
+$pageTitle = "Categories";
+include("init.php"); ?>
 
 <div class="container">
     <h1 class="text-center">Show Categories</h1>

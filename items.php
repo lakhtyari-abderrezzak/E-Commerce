@@ -16,7 +16,9 @@ $stmt = $conn->prepare("SELECT items.*, categories.Name As catName
                             INNER JOIN users 
                             ON users.UserID = items.Member_ID
                             WHERE 
-                                Item_ID = ?");
+                                Item_ID = ?
+                            AND 
+                                Approve = 1");
 //link the id from the link with the id in DB
 $stmt->execute(array($itemId));
 //fetch data

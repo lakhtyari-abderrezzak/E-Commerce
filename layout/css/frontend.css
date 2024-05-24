@@ -44,7 +44,9 @@ h1 {
   padding: 10px;
   background-color: #fff;
 }
-.upper-bar .input-container 
+.upper-bar .btn{
+  margin-right: 3px;
+}
 /* End Golobal Rules */
 
 /* Start navbar Edit  */
@@ -107,6 +109,8 @@ h1 {
   font-size: 18px;
   color: #777;
   line-height: 1.6;
+  height: 44px;
+  max-height: 44px;
 }
 /* End Category Styling */
 /* Start Profile Styling */
@@ -171,6 +175,20 @@ h1 {
   color: #aaa;
   text-align: right;
   font-weight: bold;
+}
+.not-approved{
+  position: relative;
+}
+.not-approved::before{
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #ccc;
+  opacity: .4;
 }
 
 /* End Profile Styling */
