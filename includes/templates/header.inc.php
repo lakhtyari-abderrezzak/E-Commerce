@@ -23,9 +23,13 @@
   <div class="upper-bar">
     <div class="container">
       <?php
+      if(isset($_SESSION['user'])){
+      $stmt = $conn->prepare('SELECT RegStatus FROM users WHERE Username = ?');
+      $stmt->execute([$_SESSION['user']]);
+      $user = $stmt->fetch();}
       if (isset($_SESSION['user'])) {
-        echo ' <span> Welcome ' . $_SESSION['user'] . '</span>';
-        if($userStatus = 1){
+        echo ' <span> Welcome <b>' . $_SESSION['user'] . '</b> </span>';
+        if($user['RegStatus'] == 0){
           echo '<span>Your Profile is Not Active </span>';
         }
         echo '<a class="btn btn-primary" href="newad.php">New Item</a>';

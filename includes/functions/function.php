@@ -59,13 +59,20 @@ function redierctHome($Msg, $url = Null, $seconds = 3)
 function checkUser($select, $from, $value)
 {
     global $conn;
-    $statement = $conn->prepare("SELECT $select FROM $from WHERE $select = ?");
-    $statement->execute(array($value));
-    $count = $statement->rowCount();
+    $stmt = $conn->prepare("SELECT $select FROM $from WHERE $select = ?");
+    $stmt->execute(array($value));
+    $count = $stmt->rowCount();
 
     return $count;
 }
-
+function getTable($select, $from )
+{
+    global $conn;
+    $stmt = $conn->prepare("SELECT $select FROM $from");
+    $stmt->execute();
+    $table = $stmt->fetch();   
+    return $table;
+}
 /*
 *** Function That Takes Two Arguments Item And Table
 *** This Function Will Count Number Of Rows And It Will Return A Number 

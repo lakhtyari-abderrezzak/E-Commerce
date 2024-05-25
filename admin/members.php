@@ -341,10 +341,10 @@ if (isset($_SESSION["Username"])) {
             $stmt->execute(array($userID));
 
             $msg = '<div class="alert alert-success">User #ID ' . $userID . ' Was Activated Successfully</div>';
-            redierctHome($msg, 'back');
+            redierctHome($msg, 'back', 1);
         } else {
             $errorMsg = '<div class="alert alert-danger">You Can\'t Enter This Page From The Url</div>';
-            redierctHome($errorMsg);
+            redierctHome($errorMsg, 'Back', 0.6);
         }
         echo '</div>';
     } elseif ($do == 'Disactivate') {
@@ -359,10 +359,10 @@ if (isset($_SESSION["Username"])) {
             $stmt->execute(array($userID));
 
             $msg = '<div class="alert alert-success">User #ID ' . $userID . ' Was Disactivated Successfully</div>';
-            redierctHome($msg, 'back');
+            redierctHome($msg, 'back',0.6);
         } else {
             $errorMsg = '<div class="alert alert-danger">You Can\'t Enter This Page From The Url</div>';
-            redierctHome($errorMsg);
+            redierctHome($errorMsg, 'back', 0.6);
         }
         echo '</div>';
     }
