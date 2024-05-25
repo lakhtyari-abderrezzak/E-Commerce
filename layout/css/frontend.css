@@ -47,6 +47,10 @@ h1 {
 .upper-bar .btn{
   margin-right: 3px;
 }
+.my-image{
+  width: 35px;
+  margin-right: 10px;
+}
 /* End Golobal Rules */
 
 /* Start navbar Edit  */

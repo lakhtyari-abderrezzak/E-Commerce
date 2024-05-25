@@ -23,20 +23,21 @@
   <div class="upper-bar">
     <div class="container">
       <?php
-      if(isset($_SESSION['user'])){
-      $stmt = $conn->prepare('SELECT RegStatus FROM users WHERE Username = ?');
-      $stmt->execute([$_SESSION['user']]);
-      $user = $stmt->fetch();}
-      if (isset($_SESSION['user'])) {
-        echo ' <span> Welcome <b>' . $_SESSION['user'] . '</b> </span>';
-        if($user['RegStatus'] == 0){
-          echo '<span>Your Profile is Not Active </span>';
-        }
-        echo '<a class="btn btn-primary" href="newad.php">New Item</a>';
-        echo '<a class="btn btn-primary" href="profile.php">Profile</a>';
-        $userStatus = checkUserStatus($sessionUser);
-        echo '<a class="btn btn-danger" href="logout.php">Logout</a>';
+      if(isset($_SESSION['user'])){?>
+        <img src="./profile.jpg" alt="" class="my-image img-thumbnail img-circle">
+      <div class="btn-group">
+        <span class="btn btn-default btn-dropdown-toggle" data-toggle="dropdown">
+          <?php echo $sessionUser ?>
+          <span class="caret"></span>
+        </span>
+        <ul class="dropdown-menu">
+          <li><a href="profile.php">Profile</a></li>
+          <li><a href="newad.php">New Item</a></li>
+          <li><a href="logout.php">Logout</a></li>
+        </ul>
+      </div>
 
+      <?php
       } else {
         ?>
         <span class="pull-right">
