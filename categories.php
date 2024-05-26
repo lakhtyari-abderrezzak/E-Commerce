@@ -24,6 +24,7 @@ include("init.php"); ?>
                         <h3><a href='items.php?itemid=<?php echo $item['Item_ID'] ?>'><?php echo $item['Name']?></a></h3>
                         <p><?php echo $item['Description'] ?> </p>
                         <span class="date"><?php echo $user['Username']?></span>
+                        <span class="date"><?php echo $item['Add_Date']?></span>
                     </div>
                 </div>
             </div>

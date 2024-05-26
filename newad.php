@@ -25,7 +25,7 @@
         //Check if Errors Are Empty Then Send The Data To DB
         if (empty ($formErrors)){
             $stmt = $conn->prepare("INSERT INTO 
-                                items (`Name`, `Description`, Price, Add_Date, Made_In, `Status`, Cat_Id, Member_Id)
+                                items (`Name`, `Description`, Price, Add_Date, Made_In, `Status`, Cat_ID, Member_Id)
                                  VALUES (?,?,?,now(),?,?,?,?);");
             $stmt->execute(array($name, $desc, $price, $country, $status, $category, $_SESSION['uid']));
             
@@ -49,8 +49,14 @@
                                 <div class="form-group form-group-lg">
                                     <lable class="col-sm-2 control-label">Name</lable>
                                     <div class="col-sm-10 col-md-9">
-                                        <input type="text" name="name"  class="form-control live"
-                                            placeholder="Enter Valid Item Name" data-class="live-title" required="required">
+                                        <input  type="text" 
+                                                pattern=".{4,}"
+                                                title="This Feild Requires More Then 4 Characters"
+                                                name="name"  
+                                                class="form-control live"
+                                                placeholder="Enter Valid Item Name" 
+                                                data-class="live-title" 
+                                                required="required">
                                     </div>
                                 </div>
                                 <!-- End name of Item  -->
@@ -59,8 +65,15 @@
                                 <div class="form-group form-group-lg">
                                     <lable class="col-sm-2 control-label">Description</lable>
                                     <div class="col-sm-10 col-md-9">
-                                        <input type="text" class="form-control live" name="description" required="required"
-                                            placeholder="Enter a Description for Your Product" data-class="live-desc">
+                                        <input 
+                                                pattern=".{10,}"
+                                                title="This Feild Requires More Then 10 Characters"
+                                                type="text" 
+                                                class="form-control live" 
+                                                name="description" 
+                                                required="required"
+                                                placeholder="Enter a Description for Your Product" 
+                                                data-class="live-desc">
                                     </div>
                                 </div>
                                 <!-- End Description of Item  -->
@@ -84,8 +97,8 @@
                                 <div class="form-group form-group-lg">
                                     <lable class="col-sm-2 control-label">Status</lable>
                                     <div class="col-sm-10 col-md-9">
-                                        <select name="status" class="" id="">
-                                            <option value="0">...</option>
+                                        <select name="status" class="" id="" required>
+                                            <option value="">...</option>
                                             <option value="1">New</option>
                                             <option value="2">Like New</option>
                                             <option value="3">Used</option>
@@ -100,7 +113,7 @@
                                     <lable class="col-sm-2 control-label">Categories</lable>
                                     <div class="col-sm-10 col-md-9">
                                         <select name="categories" required='required'>
-                                            <option value="0">...</option>
+                                            <option value="">...</option>
 
                                             <?php
                                             $stmt = $conn->prepare('SELECT * FROM categories');

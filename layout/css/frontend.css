@@ -194,6 +194,9 @@ h1 {
   background-color: #ccc;
   opacity: .4;
 }
+.info .btn{
+  margin-top: 10px;
+}
 
 /* End Profile Styling */
 /* Start Show Items Styling */

@@ -67,7 +67,7 @@ if($stmt->rowCount() > 0){
             <div class="add-comment">
                 <h3>Add Comment</h3>
                 <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
-                    <textarea name="comment" class="comment"></textarea>
+                    <textarea name="comment" class="comment" required></textarea>
                     <input type="submit" class="btn btn-primary" value="submit" id="">
                 </form>
             </div>
