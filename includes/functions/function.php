@@ -1,7 +1,17 @@
 <?php
+/*
+#### The ULtimate Get All Function 
 
-function getCats(){
+*/
+function getAllFromAnyTable($feilds, $table, $where = NULL, $orderBy = NULL , $ordering = 'ASC'){
     global $conn;
+    $stmt = $conn->prepare("SELECT $feilds FROM $table $where ORDER BY $orderBy $ordering");
+    $stmt->execute();
+    $all = $stmt->fetchAll();
+    return $all;
+}
+function getCats(){
+    global $conn; 
     $stmt = $conn->prepare("SELECT * FROM categories ORDER BY ID ASC");
     $stmt->execute();
     $cats = $stmt->fetchAll();
@@ -65,14 +75,7 @@ function checkUser($select, $from, $value)
 
     return $count;
 }
-function getTable($select, $from )
-{
-    global $conn;
-    $stmt = $conn->prepare("SELECT $select FROM $from");
-    $stmt->execute();
-    $table = $stmt->fetch();   
-    return $table;
-}
+
 /*
 *** Function That Takes Two Arguments Item And Table
 *** This Function Will Count Number Of Rows And It Will Return A Number 
