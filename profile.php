@@ -5,10 +5,10 @@ session_start();
 $pageTitle = "Profile";
 
 include("init.php");
-
-$getUser = $conn->prepare("SELECT * FROM users WHERE Username = ?");
-$getUser->execute([$sessionUser]);
-$info = $getUser->fetch();
+$stmt = $conn->prepare("SELECT * FROM users WHERE Username = ?");
+$stmt->execute([$sessionUser]);
+$info = $stmt->fetch();
+$userid = $info['UserID'];
 
 if (isset($_SESSION['user'])) {
     ?>
@@ -56,9 +56,8 @@ if (isset($_SESSION['user'])) {
                     <div class="panel-heading">My Ads</div>
                     <div class="panel-body">
                             <?php
-                            if(!empty (getItems('Member_ID', $info['UserID']))){
-                                $items = getItems('Member_ID', $info['UserID'],1);
-                        
+                            $items = getAllFromAnyTable("*", "Items", "WHERE Member_ID = $userid", "Item_ID", "DESC");
+                            if(!empty ($items)){
                                 echo "<div class='row'>";
                                 foreach ($items as $item) {?>
                                     
@@ -101,9 +100,7 @@ if (isset($_SESSION['user'])) {
                         
                             <?php
                             echo '<div class"row">';
-                            $stmt = $conn->prepare("SELECT Comment FROM comments WHERE user_id = ?");
-                            $stmt->execute(array($info['UserID']));
-                            $comments = $stmt->fetchAll();
+                            $comments = getAllFromAnyTable("Comment", "comments", "WHERE user_id = $userid", "c_id");
                             if(!empty ($comments)){
                                 foreach($comments as $comment) {
                                     echo '<p>' . $comment['Comment'] . '</p>';

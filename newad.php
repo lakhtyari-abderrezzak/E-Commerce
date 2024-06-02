@@ -24,9 +24,13 @@
         }
         //Check if Errors Are Empty Then Send The Data To DB
         if (empty ($formErrors)){
-            $stmt = $conn->prepare("INSERT INTO 
-                                items (`Name`, `Description`, Price, Add_Date, Made_In, `Status`, Cat_ID, Member_Id)
-                                 VALUES (?,?,?,now(),?,?,?,?);");
+            $stmt = $conn->prepare("INSERT 
+                                    INTO 
+                                        items 
+                                        (`Name`, `Description`, Price, Add_Date, Made_In, `Status`, Cat_ID, Member_Id)
+                                    VALUES 
+                                        (?,?,?,now(),?,?,?,?);
+                                        ");
             $stmt->execute(array($name, $desc, $price, $country, $status, $category, $_SESSION['uid']));
             
             if ($stmt){
@@ -116,16 +120,16 @@
                                             <option value="">...</option>
 
                                             <?php
-                                            $stmt = $conn->prepare('SELECT * FROM categories');
-                                            $stmt->execute();
-                                            $users = $stmt->fetchAll();
-                                            foreach ($users as $user) {
-                                                echo '<option value="' . $user['ID'] . '">' . $user['Name'] . '</option>';
+                                            $categories = getAllFromAnyTable('*','categories','','ID',); 
+                                            foreach ($categories as $cat) {
+                                                echo '<option value="' . $cat['ID'] . '">' . $cat['Name'] . '</option>';
                                             }
                                             ?>
 
                                         </select>
                                     </div>
+                                    
+
                                 </div>
                                 <!-- End Categories -->
                                 <!-- start Submit  -->
