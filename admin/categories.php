@@ -100,6 +100,22 @@ if (isset($_SESSION["Username"])) {
                     </div>
                 </div>
                 <!-- End Description Field  -->
+                <!-- Start Parent Field  -->
+                <div class="form-group form-group-lg">
+                    <lable for="parent"class="col-sm-2 control-label">Parent?</lable>
+                    <div class="col-sm-10 col-md-6">
+                    <select name="parent" >
+                        <option value="0">None</option>
+                        <?php 
+                        $allcats = getAllFromAnyTable("*", "categories", "where parent = 0", "ID",);
+                        foreach($allcats as $cats){
+                            echo '<option value="' . $cats['ID'] . '">' . $cats['Name'] . '</option>';
+                        }
+                        ?>
+                    </select>
+                    </div>
+                </div>
+                <!-- End Parent Field  -->
                 <!-- Start Ordering Field  -->
                 <div class="form-group form-group-lg">
                     <lable class="col-sm-2 control-label">Ordering</lable>
@@ -171,7 +187,8 @@ if (isset($_SESSION["Username"])) {
             echo '<div class="container">';
 
             $name = $_POST['name'];
-            $discription = $_POST['description'];
+            $description = $_POST['description'];
+            $parent = $_POST['parent'];
             $ordering = $_POST['ordering'];
             $visibility = $_POST['visibility'];
             $comments = $_POST['comments'];
@@ -184,9 +201,9 @@ if (isset($_SESSION["Username"])) {
             } else {
                 // Insert Info Into Categories Table in Db
                 $stmt = $conn->prepare("INSERT INTO 
-                categories(Name, Description, Ordering, Visibility, Allow_Comments, Allow_Ads) 
-                VALUES (?,?,?,?,?,?)");
-                $stmt->execute(array($name, $discription, $ordering, $visibility, $comments, $ads));
+                categories(`Name`, `Description`, parent, Ordering, Visibility, Allow_Comments, Allow_Ads) 
+                VALUES (?,?,?,?,?,?,?)");
+                $stmt->execute(array($name, $description, $parent ,$ordering, $visibility, $comments, $ads));
                 $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Category Added Successfully </div>';
                 redierctHome($theMsg, 'back', 4);
             }

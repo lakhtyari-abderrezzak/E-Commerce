@@ -36,7 +36,14 @@
           <li><a href="logout.php">Logout</a></li>
         </ul>
       </div>
-
+      <div class="pull-right">
+        <?php 
+          $status = checkUserStatus($_SESSION['user']);
+          if($status == 1){
+            echo '<p class="unactive" title="No Ads Will Show For Users From This Profile "><i class="fa-solid fa-user-slash"></i> Profile Not Active</p>';
+          }
+        ?>
+      </div>
       <?php
       } else {
         ?>
@@ -61,7 +68,8 @@
       <div class="collapse navbar-collapse" id="app-nav">
         <ul class="nav navbar-nav navbar-right">
           <?php
-          foreach (getCats() as $cat) {
+          $cats = getAllFromAnyTable('*', 'categories','where parent = 0','ID','ASC');
+          foreach ($cats as $cat) {
             echo '<li>
                     <a href="Categories.php?pageid=' . $cat['ID'] . '">'
                     . $cat['Name'] . 

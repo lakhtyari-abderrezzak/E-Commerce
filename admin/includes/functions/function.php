@@ -1,5 +1,13 @@
 <?php
 
+function getAllFromAnyTable($feilds, $table, $where = NULL, $orderBy = NULL , $ordering = 'ASC'){
+    global $conn;
+    $stmt = $conn->prepare("SELECT $feilds FROM $table $where ORDER BY $orderBy $ordering");
+    $stmt->execute();
+    $all = $stmt->fetchAll();
+    return $all;
+}
+
 // Function that echos pageTitle incase
 // the page has $pageTitle variable in it 
 
