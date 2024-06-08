@@ -7,6 +7,14 @@ function getAllFromAnyTable($feilds, $table, $where = NULL, $orderBy = NULL , $o
     $all = $stmt->fetchAll();
     return $all;
 }
+//Function That Get One record .
+function oneRecord($feilds, $table, $where){
+    global $conn;
+    $stmt = $conn->prepare("SELECT $feilds FROM $table $where");
+    $stmt->execute();
+    $all = $stmt->fetch();
+    return $all;
+}
 
 // Function that echos pageTitle incase
 // the page has $pageTitle variable in it 

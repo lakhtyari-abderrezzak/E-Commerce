@@ -14,12 +14,10 @@ if (isset($_SESSION["Username"])) {
             $sort = $_GET['sort'];
         }
 
-
-        $stmt = $conn->prepare("SELECT * FROM categories ORDER BY ordering  $sort");
-        $stmt->execute();
-        $row = $stmt->fetchAll();
+        $allCats = getAllFromAnyTable("*", "categories", "where parent = 0", "ordering" , $sort);
+        
         $message = "<div class='record-message'>No Records Found</div>";
-        if (!empty($row)) {
+        if (!empty($allCats)) {
             ?>
             <h1 class="text-center">Manage Categories</h1>
             <div class="container  categories">
@@ -43,28 +41,46 @@ if (isset($_SESSION["Username"])) {
                     </div>
                     <div class="panel-body">
                         <?php
-                        foreach ($row as $key) {
+                        foreach ($allCats as $cats) {
                             echo '<div class="catego">';
                             echo '<div class="hidden-buttons">
-                                    <a href="categories.php?do=Edit&CatID=' . $key['ID'] . '" class="btn btn-xs btn-primary"><i class="fa-solid fa-edit"></i>Edit</a>
-                                    <a href="categories.php?do=Delete&CatID=' . $key['ID'] . '" class="btn btn-xs btn-danger confirm"><i class="fa-solid fa-close"></i>Delete</a>
+                                    <a href="categories.php?do=Edit&CatID=' . $cats['ID'] . '" class="btn btn-xs btn-primary"><i class="fa-solid fa-edit"></i>Edit</a>
+                                    <a href="categories.php?do=Delete&CatID=' . $cats['ID'] . '" class="btn btn-xs btn-danger confirm"><i class="fa-solid fa-close"></i>Delete</a>
                                 </div>';
-                            echo '<h3>' . $key['Name'] . '</h3>';
+                            echo '<h3>' . $cats['Name'] . '</h3>';
                             echo '<div class="full-view">';
-                            echo $key['Description'] == '' ? '<p> No Discription </p>' : '<p>' . $key['Description'] . '</p>';
-                            if ($key['Visibility'] == 1) {
+                            echo $cats['Description'] == '' ? '<p> No Discription </p>' : '<p>' . $cats['Description'] . '</p>';
+                            if ($cats['Visibility'] == 1) {
                                 echo ' <span class="visibility"><i class="fa-solid fa-eye-slash"></i> Hidden</span>';
                             }
-                            if ($key['Allow_Comments'] == 1) {
+                            if ($cats['Allow_Comments'] == 1) {
                                 echo '<span class="comments">Comments Are Disable</span>';
                             }
-                            if ($key['Allow_Ads'] == 1) {
+                            if ($cats['Allow_Ads'] == 1) {
                                 echo '<span class="adverts">Ads Are Disable</span>';
                             }
                             echo '</div>';
+                            $childCats = getAllFromAnyTable("*", "categories", "where parent = {$cats['ID']}", "ordering", $sort);
+                            if(!empty($childCats)){
+                                echo '<ul class="child-cat">';
+                                echo '<h4 class="cat-head">Child Categorie</h4>';
+                                foreach($childCats as $childcat){?>
+                                        <li class="show-btn">
+                                            <?php echo $childcat['Name'] ?>
+                                            <div class="buttons">
+                                                <a href="categories.php?do=Edit&CatID=<?php echo $childcat['ID'] ?>" class="btn btn-primary">Edit</a>
+                                                <a href="categories.php?do=Delete&CatID=<?php echo $childcat['ID'] ?>" class="btn btn-danger confirm">Delete</a>
+                                            </div>
+                                        </li>
+                                <?php }
+                                echo '</ul>';
+                            }
                             echo '</div>';
+                            
+                            
                             echo '<hr>';
                         }
+                        
                         ?>
                     </div>
                 </div>
@@ -245,6 +261,28 @@ if (isset($_SESSION["Username"])) {
                             </div>
                         </div>
                         <!-- End Description Field  -->
+                        <!-- Start Parent Field  -->
+                        <?php 
+                        $parent = oneRecord("parent", "categories", "where ID = {$_GET['CatID']}");
+                        if($parent['parent'] !== 0){ ?>
+                        <div class="form-group form-group-lg">
+                            <lable for="parent"class="col-sm-2 control-label">Parent?</lable>
+                            <div class="col-sm-10 col-md-6">
+                            <select name="parent" >
+                                <option value="0">None</option>
+                                <?php 
+                                $allcats = getAllFromAnyTable("*", "categories", "where parent = 0", "ID",);
+                                foreach($allcats as $cats){
+                                    echo '<option value="' . $cats['ID'] . '"';
+                                    if($row['parent'] === $cats['ID']){ echo 'selected';}
+                                    echo '>' . $cats['Name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                            </div>
+                        </div>
+                        <?php } ?>
+                        <!-- End Parent Field  -->
                         <!-- Start Ordering Field  -->
                         <div class="form-group form-group-lg">
                             <lable class="col-sm-2 control-label">Ordering</lable>
@@ -337,6 +375,7 @@ if (isset($_SESSION["Username"])) {
             $id = $_POST['catID'];
             $name = $_POST['name'];
             $description = $_POST['description'];
+            $parent = $_POST['parent'];
             $ordering = $_POST['ordering'];
             $visibility = $_POST['visibility'];
             $comments = $_POST['comments'];
@@ -348,8 +387,8 @@ if (isset($_SESSION["Username"])) {
                 echo "<div class='alert alert-danger'>Category Name Can't Be Left Empty</div>";
             } else {
 
-                $stmt = $conn->prepare('UPDATE categories SET `Name` = ?, `Description` = ?, Ordering = ?, Visibility = ?, Allow_comments = ?, Allow_Ads = ?  WHERE `ID` = ? LIMIT 1;');
-                $stmt->execute(array($name, $description, $ordering, $visibility, $comments, $ads, $id));
+                $stmt = $conn->prepare('UPDATE categories SET `Name` = ?, `Description` = ?, parent = ? ,Ordering = ?, Visibility = ?, Allow_comments = ?, Allow_Ads = ?  WHERE `ID` = ? LIMIT 1;');
+                $stmt->execute(array($name, $description, $parent ,$ordering, $visibility, $comments, $ads, $id));
 
                 $stmt->rowCount() > 0 ? $updateMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Record Updated</div>' :
                     $updateMsg = '<div class="alert alert-danger">' . $stmt->rowCount() . ' Record Updated</div>';

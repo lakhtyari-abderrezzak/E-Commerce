@@ -63,5 +63,10 @@ $('.panel-info').click(function(){
     }else{
         $(this).html('<i class="fa-solid fa-sort-up fa-lg"></i>');
     }
-})
-})
+});
+$('.show-btn').hover(function(){
+    $(this).find('.buttons').fadeIn(400);
+} , function(){
+    $(this).find('.buttons').fadeOut(400);
+});
+});
