@@ -216,9 +216,9 @@ if (isset($_SESSION["Username"])) {
                 redierctHome($msg, 'back', 4);
             } else {
                 // Insert Info Into Categories Table in Db
-                $stmt = $conn->prepare("INSERT INTO 
-                categories(`Name`, `Description`, parent, Ordering, Visibility, Allow_Comments, Allow_Ads) 
-                VALUES (?,?,?,?,?,?,?)");
+                $stmt = $conn->prepare("INSERT 
+                                        INTO categories(`Name`, `Description`, parent, Ordering, Visibility, Allow_Comments, Allow_Ads) 
+                                        VALUES (?,?,?,?,?,?,?) ");
                 $stmt->execute(array($name, $description, $parent ,$ordering, $visibility, $comments, $ads));
                 $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Category Added Successfully </div>';
                 redierctHome($theMsg, 'back', 4);

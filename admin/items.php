@@ -147,10 +147,8 @@ if (isset($_SESSION['Username'])) {
                             <option value="0">...</option>
 
                             <?php
-                            $stmt = $conn->prepare('SELECT * FROM users WHERE GroupID = 0');
-                            $stmt->execute();
-                            $users = $stmt->fetchAll();
-                            foreach ($users as $user) {
+                            $members = getAllFromAnyTable("*", "users", "where GroupID = 0", "userID");
+                            foreach ($members as $user) {
                                 echo '<option value="' . $user['UserID'] . '">' . $user['Username'] . '</option>';
                             }
                             ?>
@@ -167,11 +165,14 @@ if (isset($_SESSION['Username'])) {
                             <option value="0">...</option>
 
                             <?php
-                            $stmt = $conn->prepare('SELECT * FROM categories');
-                            $stmt->execute();
-                            $users = $stmt->fetchAll();
-                            foreach ($users as $user) {
-                                echo '<option value="' . $user['ID'] . '">' . $user['Name'] . '</option>';
+                            $categories = getAllFromAnyTable("*", "categories", "where parent = 0", "ID","ASC");
+                            foreach ($categories as $categorie) {
+                                echo '<option value="' . $categorie['ID'] . '">' . $categorie['Name'] . '</option>';
+                                $childCategories = getAllFromAnyTable("*", "categories", "where parent = {$categorie['ID']}", "ID","ASC");
+                                foreach($childCategories as $child){
+                                    echo '<option value="' . $child['ID'] . '"> ---' . $child['Name'] . '</option>';
+                                }
+
                             }
                             ?>
 
