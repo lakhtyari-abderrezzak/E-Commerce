@@ -424,7 +424,7 @@ if (isset($_SESSION['Username'])) {
         } else {
             echo "<div class ='container'>";
             $editError = '<div class="alert alert-danger">No such ID was found</div>';
-            redierctHome($editError, 4);
+            redierctHome($editError, 1);
             echo "</div>";
         }
     } elseif ($do == 'Update') {
@@ -495,7 +495,7 @@ if (isset($_SESSION['Username'])) {
             echo '</div>';
         } else {
             $errorMsg = "<div class='alert alert-danger'>You Can't Enter Update Page This Way </div>";
-            redierctHome($errorMsg, 'back', 4);
+            redierctHome($errorMsg, 'back', 1);
         }
     } elseif ($do == 'Delete') {
 
@@ -511,7 +511,7 @@ if (isset($_SESSION['Username'])) {
             $stmt->execute();
 
             $msg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Item Deleted. ID Number: ' . $itemID . '</div>';
-            redierctHome($msg);
+            redierctHome($msg,'Back', 1);
         } else {
             $msg = '<div class="alert alert-danger">You Can\'t Browse This Page This Way</div>';
             redierctHome($msg);
@@ -531,7 +531,7 @@ if (isset($_SESSION['Username'])) {
             $stmt->execute([$itemID]);
 
             $msg = '<div class="alert alert-success" >' . $stmt->rowCount() . 'Item Was <b>Approved</b></div>';
-            redierctHome($msg, 'back', 0.5);
+            redierctHome($msg, 'back', 1);
         }
 
     }
