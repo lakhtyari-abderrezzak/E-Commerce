@@ -58,15 +58,20 @@ if($stmt->rowCount() > 0){
                     <span>Category</span>: <a href="categories.php?pageid=<?php echo $item['Cat_ID'] ?>"><?php echo $item['catName'] ?></a>
                 </li>
                 <li>
-                    <i class="fa-solid fa-list"></i>
+                    <i class="fa-solid fa-tag"></i>
                     <span>Tags</span>: 
                     <?php 
                     $allTags = explode(',', $item['Tags']);
                     
-                    foreach($allTags as $tag){
+                        foreach($allTags as $tag){
+                            if(!empty($tag)){
                         $tags = str_replace(' ', '', $tag);
                         echo "<a href='tags.php?name={$tags}' class='tag'>" . $tags . "</a>";
+                        }else {
+                            echo '<span>No Tags...</span>';
+                        }
                     }
+                    
                     ?>
                 </li>
             </ul>

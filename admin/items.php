@@ -277,7 +277,7 @@ if (isset($_SESSION['Username'])) {
         $count = $stmt->rowCount();
 
         if ($count > 0) { ?>
-            <h1 class="text-center edit-members">Edit Category</h1>
+            <h1 class="text-center edit-members">Edit Item</h1>
             <div class="container">
                 <form action="?do=Update" class="form-horizontal" method="POST">
                     <!-- start name of Item  -->
@@ -397,7 +397,12 @@ if (isset($_SESSION['Username'])) {
                     <div class="form-group form-group-lg">
                         <lable class="col-sm-2 control-label">Tags</lable>
                         <div class="col-sm-10 col-md-6">
-                            <input type="text" id="tags" class="tags form-control" value="<?php foreach($items as $item){ echo $item['Tags'];} ?>">
+                            <input type="text" id="tags" data-role="tagsinput" 
+                                class="tags form-control" 
+                                value="<?php
+                                 $tags = getAllFromAnyTable("*", "items", "where $itemID = Item_ID", "Item_ID");
+                                 foreach($tags as $tag){ echo $tag['Tags'];} 
+                                ?>">
                         </div>
                     </div>
                 <!-- End Of Tags  -->
