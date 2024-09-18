@@ -243,6 +243,11 @@ h1 {
 .show-item ul li i{
   padding-right: 4px;
 }
+.tag{
+  background-color: lightblue;
+  padding: 3px 6px;
+  margin-right: 4px;
+}
 .row .add-comment{
   margin: 0;
 }

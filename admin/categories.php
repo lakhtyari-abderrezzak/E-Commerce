@@ -50,13 +50,13 @@ if (isset($_SESSION["Username"])) {
                             echo '<h3>' . $cats['Name'] . '</h3>';
                             echo '<div class="full-view">';
                             echo $cats['Description'] == '' ? '<p> No Discription </p>' : '<p>' . $cats['Description'] . '</p>';
-                            if ($cats['Visibility'] == 1) {
+                            if ($cats['Visibility'] == 0) {
                                 echo ' <span class="visibility"><i class="fa-solid fa-eye-slash"></i> Hidden</span>';
                             }
-                            if ($cats['Allow_Comments'] == 1) {
+                            if ($cats['Allow_Comments'] == 0) {
                                 echo '<span class="comments">Comments Are Disable</span>';
                             }
-                            if ($cats['Allow_Ads'] == 1) {
+                            if ($cats['Allow_Ads'] == 0) {
                                 echo '<span class="adverts">Ads Are Disable</span>';
                             }
                             echo '</div>';
@@ -161,11 +161,11 @@ if (isset($_SESSION["Username"])) {
                     <lable class="col-sm-2 control-label">Comments</lable>
                     <div class="col-sm-10 col-md-6">
                         <div>
-                            <input type="radio" name="comments" id="commnets-yes" value="0" checked>
+                            <input type="radio" name="comments" id="commnets-yes" value="1" checked>
                             <label for="comments-yes">Allowed</label>
                         </div>
                         <div>
-                            <input type="radio" name="comments" id="commnets-no" value="1">
+                            <input type="radio" name="comments" id="commnets-no" value="0">
                             <label for="comments-no">Restricted</label>
                         </div>
                     </div>
@@ -176,11 +176,11 @@ if (isset($_SESSION["Username"])) {
                     <lable class="col-sm-2 control-label">Advertisement</lable>
                     <div class="col-sm-10 col-md-6">
                         <div>
-                            <input type="radio" name="ads" id="ads-yes" value="0" checked>
+                            <input type="radio" name="ads" id="ads-yes" value="1" checked>
                             <label for="ads-yes">Allowed</label>
                         </div>
                         <div>
-                            <input type="radio" name="ads" id="ads-no" value="1">
+                            <input type="radio" name="ads" id="ads-no" value="0">
                             <label for="ads-no">Restricted</label>
                         </div>
                     </div>
@@ -262,11 +262,9 @@ if (isset($_SESSION["Username"])) {
                         </div>
                         <!-- End Description Field  -->
                         <!-- Start Parent Field  -->
-                        <?php 
-                        $parent = oneRecord("parent", "categories", "where ID = {$_GET['CatID']}");
-                        if($parent['parent'] !== 0){ ?>
+                       
                         <div class="form-group form-group-lg">
-                            <lable for="parent"class="col-sm-2 control-label">Parent?</lable>
+                            <lable for="parent" class="col-sm-2 control-label">Parent?</lable>
                             <div class="col-sm-10 col-md-6">
                             <select name="parent" >
                                 <option value="0">None</option>
@@ -281,7 +279,7 @@ if (isset($_SESSION["Username"])) {
                             </select>
                             </div>
                         </div>
-                        <?php } ?>
+                        
                         <!-- End Parent Field  -->
                         <!-- Start Ordering Field  -->
                         <div class="form-group form-group-lg">
@@ -297,13 +295,13 @@ if (isset($_SESSION["Username"])) {
                             <lable class="col-sm-2 control-label">Visibility</lable>
                             <div class="col-sm-10 col-md-6">
                                 <div>
-                                    <input type="radio" name="visibility" id="vis-yes" value="0" <?php if ($row['Visibility'] == 0) {
+                                    <input type="radio" name="visibility" id="vis-yes" value="1" <?php if ($row['Visibility'] == 1) {
                                         echo 'checked';
                                     } ?>>
                                     <label for="vis-yes">Visible</label>
                                 </div>
                                 <div>
-                                    <input type="radio" name="visibility" id="vis-no" value="1" <?php if ($row['Visibility'] == 1) {
+                                    <input type="radio" name="visibility" id="vis-no" value="0" <?php if ($row['Visibility'] == 0) {
                                         echo 'checked';
                                     } ?>>
                                     <label for="vis-no">Hidden</label>
@@ -316,13 +314,13 @@ if (isset($_SESSION["Username"])) {
                             <lable class="col-sm-2 control-label">Comments</lable>
                             <div class="col-sm-10 col-md-6">
                                 <div>
-                                    <input type="radio" name="comments" id="commnets-yes" value="0" <?php if ($row['Allow_Comments'] == 0) {
+                                    <input type="radio" name="comments" id="commnets-yes" value="1" <?php if ($row['Allow_Comments'] == 0) {
                                         echo 'checked';
                                     } ?>>
                                     <label for="comments-yes">Allowed</label>
                                 </div>
                                 <div>
-                                    <input type="radio" name="comments" id="commnets-no" value="1" <?php if ($row['Allow_Comments'] == 1) {
+                                    <input type="radio" name="comments" id="commnets-no" value="0" <?php if ($row['Allow_Comments'] == 1) {
                                         echo 'checked';
                                     } ?>>
                                     <label for="comments-no">Restricted</label>
@@ -336,13 +334,13 @@ if (isset($_SESSION["Username"])) {
                             <lable class="col-sm-2 control-label">Advertisement</lable>
                             <div class="col-sm-10 col-md-6">
                                 <div>
-                                    <input type="radio" name="ads" id="ads-yes" value="0" <?php if ($row['Allow_Ads'] == 0) {
+                                    <input type="radio" name="ads" id="ads-yes" value="1" <?php if ($row['Allow_Ads'] == 0) {
                                         echo 'checked';
                                     } ?>>
                                     <label for="ads-yes">Allowed</label>
                                 </div>
                                 <div>
-                                    <input type="radio" name="ads" id="ads-no" value="1" <?php if ($row['Allow_Ads'] == 1) {
+                                    <input type="radio" name="ads" id="ads-no" value="0" <?php if ($row['Allow_Ads'] == 1) {
                                         echo 'checked';
                                     } ?>>
                                     <label for="ads-no">Restricted</label>

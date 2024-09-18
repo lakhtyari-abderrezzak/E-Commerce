@@ -8,7 +8,7 @@ function getAllFromAnyTable($feilds, $table, $where = NULL, $orderBy = NULL , $o
     return $all;
 }
 //Function That Get One record .
-function oneRecord($feilds, $table, $where){
+function oneRecord($feilds, $table, $where = null){
     global $conn;
     $stmt = $conn->prepare("SELECT $feilds FROM $table $where");
     $stmt->execute();

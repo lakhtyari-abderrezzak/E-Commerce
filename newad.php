@@ -14,6 +14,9 @@
         $country    = html_entity_decode($_POST['made']);
         $status     = filter_var($_POST['status'], FILTER_SANITIZE_NUMBER_INT);
         $category   = filter_var($_POST['categories'], FILTER_SANITIZE_NUMBER_INT); 
+        $desc       = html_entity_decode($_POST['description']);
+        $tags       = html_entity_decode($_POST['tags']);
+
 
 
         if(strlen($name) < 4 ){
@@ -27,11 +30,11 @@
             $stmt = $conn->prepare("INSERT 
                                     INTO 
                                         items 
-                                        (`Name`, `Description`, Price, Add_Date, Made_In, `Status`, Cat_ID, Member_Id)
+                                        (`Name`, `Description`, Price, Add_Date, Made_In, `Status`, Cat_ID, Member_Id, Tags)
                                     VALUES 
-                                        (?,?,?,now(),?,?,?,?);
+                                        (?,?,?,now(),?,?,?,?,?);
                                         ");
-            $stmt->execute(array($name, $desc, $price, $country, $status, $category, $_SESSION['uid']));
+            $stmt->execute(array($name, $desc, $price, $country, $status, $category, $_SESSION['uid'], $tags) );
             
             if ($stmt){
                 $msg = "Successfully Added An Item";
@@ -120,9 +123,14 @@
                                             <option value="">...</option>
 
                                             <?php
-                                            $categories = getAllFromAnyTable('*','categories','','ID',); 
+                                            $categories = getAllFromAnyTable('*','categories','where parent = 0','ID',); 
                                             foreach ($categories as $cat) {
                                                 echo '<option value="' . $cat['ID'] . '">' . $cat['Name'] . '</option>';
+                                                $childCats = getAllFromAnyTable("*", "categories","WHERE parent = $cat[ID]", "ID");
+                                                foreach($childCats as $child){
+                                                    echo '<option value="' . $child['ID'] . '"> ---' . $child['Name'] . '</option>';
+
+                                                }
                                             }
                                             ?>
 
@@ -132,6 +140,14 @@
 
                                 </div>
                                 <!-- End Categories -->
+                                <!-- Start of Tags  -->
+                                <div class="form-group form-group-lg">
+                                    <lable class="col-sm-2 control-label">Tags</lable>
+                                    <div class="col-sm-10 col-md-9">
+                                        <input type="text" name="tags" id="tags" class="tags form-control">
+                                    </div>
+                                </div>
+                                <!-- End Of Tags  -->
                                 <!-- start Submit  -->
                                 <div class="form-group form-group-lg">
                                     <div class="col-sm-offset-2 col-md-10">

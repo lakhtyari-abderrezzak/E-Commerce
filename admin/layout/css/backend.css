@@ -317,3 +317,10 @@ h1{
     display: none;
 }
 /* End Categories  */
+/* Start Items  */
+.tags{
+    display: none;
+    visibility: none;
+    cursor: none;
+}
+/* Start Items  */

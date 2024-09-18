@@ -147,7 +147,9 @@ if (isset($_SESSION['Username'])) {
                             <option value="0">...</option>
 
                             <?php
-                            $members = getAllFromAnyTable("*", "users", "where GroupID = 0", "userID");
+                            // Show Only Users That Are Approved  --- RegStatus = 1 And With GroupID = 0 
+                            // Note That GroupID = 1 Is Admin
+                            $members = getAllFromAnyTable("*", "users", "WHERE GroupID = 0 AND RegStatus = 1", "userID");
                             foreach ($members as $user) {
                                 echo '<option value="' . $user['UserID'] . '">' . $user['Username'] . '</option>';
                             }
@@ -165,10 +167,15 @@ if (isset($_SESSION['Username'])) {
                             <option value="0">...</option>
 
                             <?php
-                            $categories = getAllFromAnyTable("*", "categories", "where parent = 0", "ID","ASC");
+                            /* 
+                            ### Show Only The Categories That Are Visible 
+                            ### Visibility = 1
+                            */
+                            $categories = getAllFromAnyTable("*", "categories", "where parent = 0 and Visibility = 1", "ID","ASC");
                             foreach ($categories as $categorie) {
                                 echo '<option value="' . $categorie['ID'] . '">' . $categorie['Name'] . '</option>';
-                                $childCategories = getAllFromAnyTable("*", "categories", "where parent = {$categorie['ID']}", "ID","ASC");
+                                // Show SubCategories Where Visibilty = 1 
+                                $childCategories = getAllFromAnyTable("*", "categories", "where parent = {$categorie['ID']} and visibility = 1", "ID","ASC");
                                 foreach($childCategories as $child){
                                     echo '<option value="' . $child['ID'] . '"> ---' . $child['Name'] . '</option>';
                                 }
@@ -180,6 +187,14 @@ if (isset($_SESSION['Username'])) {
                     </div>
                 </div>
                 <!-- End Users -->
+                <!-- Start of Tags  -->
+                <div class="form-group form-group-lg">
+                    <lable class="col-sm-2 control-label">Tags</lable>
+                    <div class="col-sm-10 col-md-6">
+                        <input type="text" name="tags" data-role="tagsinput" class="tags form-control">
+                    </div>
+                </div>
+                <!-- End Of Tags  -->
                 <!-- start Submit  -->
                 <div class="form-group form-group-lg">
                     <div class="col-sm-offset-2 col-md-10">
@@ -203,6 +218,7 @@ if (isset($_SESSION['Username'])) {
             $status = $_POST['status'];
             $categories = $_POST['categories'];
             $members = $_POST['members'];
+            $tags = $_POST['tags'];
 
 
             // Check If Any Of the Fields Are Empty
@@ -236,9 +252,12 @@ if (isset($_SESSION['Username'])) {
 
             if (empty($formErrors)) {
 
-                $stmt = $conn->prepare('INSERT INTO items  (`Name`, `Description`, Price, Made_In, `Status`, Add_Date, Cat_ID, Member_ID)
-                     VALUES (?,?,?,?,?,now(),?,?)');
-                $stmt->execute(array($name, $description, $price, $made, $status, $categories, $members));
+                $stmt = $conn->prepare('INSERT 
+                                        INTO 
+                                            items(`Name`, `Description`, Price, Made_In, `Status`, Add_Date, Cat_ID, Member_ID, Tags)
+                                        VALUES 
+                                            (?,?,?,?,?,now(),?,?,?)');
+                $stmt->execute(array($name, $description, $price, $made, $status, $categories, $members, $tags));
                 $stmt->rowCount() > 0 ? $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' Record inserted </div>' :
                     $theMsg = '<div class="alert alert-dnager">' . $stmt->rowCount() . ' Record inserted </div>';
                 redierctHome($theMsg);
@@ -347,16 +366,23 @@ if (isset($_SESSION['Username'])) {
                         <div class="col-sm-10 col-md-6">
                             <select name="categories" required='required'>
                                 <?php
-                                $stmt = $conn->prepare('SELECT * FROM categories');
-                                $stmt->execute();
-                                $users = $stmt->fetchAll();
-                                foreach ($users as $user) {
+                                $cats  = getAllFromAnyTable("*", "categories", "where parent = 0", "ID");
+
+                                foreach ($cats as $cat) {
                                     // echo '<option value="' . $user['ID'] . '">' . $user['Name'] . '</option>';
-                                    echo '<option value="' . $user['ID'] . '"';
-                                    if ($row['Cat_ID'] == $user['ID']) {
+                                    echo '<option value="' . $cat['ID'] . '"';
+                                    if ($row['Cat_ID'] == $cat['ID']) {
                                         echo 'selected';
                                     }
-                                    echo '>' . $user['Name'] . '</option>';
+                                    echo '>' . $cat['Name'] . '</option>';
+                                    $childCats = getAllFromAnyTable("*", "categories", "where parent = $cat[ID]", "ID");
+                                    foreach ($childCats as $child){
+                                        echo '<option value="' . $child['Cat_ID'] . '"';
+                                        if ($row['Cat_ID'] == $cat['ID']) {
+                                            echo 'selected';
+                                        }
+                                        echo '> --- ' . $child['Name'] . '</option>';
+                                    }
                                 }
                                 ?>
 
@@ -364,6 +390,17 @@ if (isset($_SESSION['Username'])) {
                         </div>
                     </div>
                     <!-- End Users -->
+                    <!-- Start of Tags  -->
+                     <?php 
+                     $items = getAllFromAnyTable("*", "items","","Item_ID");
+                     ?>
+                    <div class="form-group form-group-lg">
+                        <lable class="col-sm-2 control-label">Tags</lable>
+                        <div class="col-sm-10 col-md-6">
+                            <input type="text" id="tags" class="tags form-control" value="<?php foreach($items as $item){ echo $item['Tags'];} ?>">
+                        </div>
+                    </div>
+                <!-- End Of Tags  -->
                     <!-- start Submit  -->
                     <div class="form-group form-group-lg">
                         <div class="col-sm-offset-2 col-md-10">

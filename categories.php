@@ -18,17 +18,19 @@ include("init.php"); ?>
     </h1>
     <div class="row">
         <?php
-        $stmt = $conn->prepare("SELECT items.*, users.RegStatus, users.Username
+        $stmt = $conn->prepare("SELECT items.*, users.RegStatus, users.Username, categories.Allow_Ads
                                 FROM items 
                                 INNER JOIN users
                                 ON users.UserID = items.Member_ID
+                                INNER JOIN categories
+                                ON categories.ID = items.Cat_ID
                                 WHERE Cat_ID = ?
                                 AND Approve = 1
                                 ");
         $stmt->execute([$_GET['pageid']]);
         $allItems = $stmt->fetchAll();
         foreach ($allItems as $item) {
-            if($item['RegStatus'] === 1){
+            if($item['RegStatus'] === 1 && $item['Allow_Ads'] === 1){
             ?>
                 <div class="col-sm-6 col-md-3">
                     <div class="thumbnail item-box">

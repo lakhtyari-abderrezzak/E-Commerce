@@ -8,7 +8,7 @@ include('init.php');
 //Check if We Have item id in The Link and is It numeric Then then Get It intvalue
 $itemId = isset($_GET['itemid']) && is_numeric($_GET['itemid']) ? intval($_GET['itemid']) : 0 ;
 // Use The Int Value to Get Itmes From Data Base 
-$stmt = $conn->prepare("SELECT items.*, categories.Name As catName
+$stmt = $conn->prepare("SELECT items.*, categories.Name As catName, categories.Allow_Comments
                             , users.Username
                             FROM items
                             INNER JOIN categories 
@@ -57,6 +57,18 @@ if($stmt->rowCount() > 0){
                     <i class="fa-solid fa-list"></i>
                     <span>Category</span>: <a href="categories.php?pageid=<?php echo $item['Cat_ID'] ?>"><?php echo $item['catName'] ?></a>
                 </li>
+                <li>
+                    <i class="fa-solid fa-list"></i>
+                    <span>Tags</span>: 
+                    <?php 
+                    $allTags = explode(',', $item['Tags']);
+                    
+                    foreach($allTags as $tag){
+                        $tags = str_replace(' ', '', $tag);
+                        echo "<a href='tags.php?name={$tags}' class='tag'>" . $tags . "</a>";
+                    }
+                    ?>
+                </li>
             </ul>
         </div>
     </div>
@@ -67,8 +79,18 @@ if($stmt->rowCount() > 0){
             <div class="add-comment">
                 <h3>Add Comment</h3>
                 <form action="<?php $_SERVER['PHP_SELF'] ?>" method="POST">
-                    <textarea name="comment" class="comment" required></textarea>
-                    <input type="submit" class="btn btn-primary" value="submit" id="">
+                <?php 
+                //Allow Comments in The Case of Allow_comments = 1 
+                    if($item['Allow_Comments'] == 1) { 
+                ?>
+                        <textarea name="comment" class="comment" required></textarea>
+                        <input type="submit" class="btn btn-primary" value="submit" id="">
+                <?php 
+                    } else {
+                        echo '<textarea  class="comment" value="Comments Are Disabled" disabled></textarea>';
+                    } 
+                ?>
+                    
                 </form>
             </div>
         </div>

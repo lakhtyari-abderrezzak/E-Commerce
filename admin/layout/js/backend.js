@@ -1,20 +1,19 @@
 $(function(){
-    'use strict';
+'use strict';
 
-    $("select").selectBoxIt({
-        autoWidth:false
+ // Select Box Plugin
+$("select").selectBoxIt({
+    autoWidth:false
 
-    });
-
-
-    $('[placeholder]').focus(function(){
-        $(this).attr('data-text', $(this).attr('placeholder'));
-        $(this).attr('placeholder','');
-    }).blur(function(){
-        $(this).attr('placeholder', $(this).attr('data-text'));
-    })
+});
 
 
+$('[placeholder]').focus(function(){
+    $(this).attr('data-text', $(this).attr('placeholder'));
+    $(this).attr('placeholder','');
+}).blur(function(){
+    $(this).attr('placeholder', $(this).attr('data-text'));
+})
 
 // Create Asterisk for All Required Inputs 
 

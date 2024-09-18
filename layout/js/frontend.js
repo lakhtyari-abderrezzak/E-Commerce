@@ -1,9 +1,10 @@
 $(function () {
   "use strict";
-
+  // Select Box Plugin
   $("select").selectBoxIt({
     autoWidth: false,
   });
+ 
   $('.login-page h1 span').click(function() {
     $(this).addClass('selected').siblings().removeClass('selected'); 
     $('.login-page form').hide();
