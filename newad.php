@@ -144,8 +144,8 @@
                                 <div class="form-group form-group-lg">
                                     <lable class="col-sm-2 control-label">Tags</lable>
                                     <div class="col-sm-10 col-md-9">
-                                        <input type="text" name="tags" id="tags" class="tags form-control">
-                                    </div>
+                                        <input type="text" name="tags" id="tags" data-role="tagsinput" class="tags form-control" >
+                                        </div>
                                 </div>
                                 <!-- End Of Tags  -->
                                 <!-- start Submit  -->
